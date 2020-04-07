@@ -11,7 +11,7 @@ namespace StocksApp.Utilities.Services
     public interface IIdentityService
     {
         Task<RegistrationResponse> RegisterAsync(string fullName, string username, string password,int roleid);
-        string GenerateToken(User user);
         Task<LoginResponse> LoginAsync(string username, string password);
+        Task<LoginResponse> RefreshTokenAsync(string token, string refreshToken);
     }
 }

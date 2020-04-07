@@ -19,13 +19,15 @@ namespace StocksApp.Utilities.Services
         private JWTSettings _jwt;
         private Logger _logger;
         private PasswordHasher _hasher;
+        private TokenValidationParameters _tokenValidationParameters;
 
-        public IdentityService(AppDbContext db, JWTSettings jwt, Logger logger)
+        public IdentityService(AppDbContext db, JWTSettings jwt, Logger logger, TokenValidationParameters tokenValidationParameters)
         {
             _db = db;
             _jwt = jwt;
             _logger = logger;
             _hasher = new PasswordHasher();
+            _tokenValidationParameters = tokenValidationParameters;
         }
 
         public async Task<LoginResponse> LoginAsync(string username, string password)
@@ -43,7 +45,7 @@ namespace StocksApp.Utilities.Services
                     }
                 };
             }
-            if (!_hasher.VerifyIdentityV3Hash(password,user.Password))
+            if (!_hasher.VerifyIdentityV3Hash(password, user.Password))
             {
                 return new LoginResponse
                 {
@@ -95,7 +97,31 @@ namespace StocksApp.Utilities.Services
                 Token = token
             };
         }
+        public async Task<LoginResponse> RefreshTokenAsync(string token, string refreshToken)
+        {
+            throw new NotImplementedException();
+        }
+        private ClaimsPrincipal GetrincipalFromToken(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            try
+            {
+                var principal = tokenHandler.ValidateToken(token, _tokenValidationParameters, out var validatedToken);
+                if (isJwtWithValidSecurityAlgorithm(validatedToken))
+                    return principal;
+            }
+            catch (Exception e)
+            {
+                _logger.logError(e);
+            }
+            return null;
+        }
 
+        private bool isJwtWithValidSecurityAlgorithm(SecurityToken validatedToken)
+        {
+            return (validatedToken is JwtSecurityToken jwtSecurityToken) &&
+                jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase);
+        }
         private string GenerateToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -110,17 +136,12 @@ namespace StocksApp.Utilities.Services
                     new Claim(JwtRegisteredClaimNames.GivenName, user.Fullname),
                     new Claim("Id", user.UserId.ToString())
                 }),
-                Expires = DateTime.UtcNow.AddHours(1),
+                Expires = DateTime.UtcNow.Add(_jwt.TokenLifetime),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
             return tokenHandler.WriteToken(token);
-        }
-
-        string IIdentityService.GenerateToken(User user)
-        {
-            throw new NotImplementedException();
         }
     }
 }

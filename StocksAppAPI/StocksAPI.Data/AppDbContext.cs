@@ -22,6 +22,7 @@ namespace StocksAPI.Data
         public virtual DbSet<ProductCategory> ProductCategory { get; set; }
         public virtual DbSet<ProductManufacturer> ProductManufacturer { get; set; }
         public virtual DbSet<ProductType> ProductType { get; set; }
+        public virtual DbSet<RefreshToken> RefreshToken { get; set; }
         public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<RolePermission> RolePermission { get; set; }
         public virtual DbSet<User> User { get; set; }
@@ -116,6 +117,21 @@ namespace StocksAPI.Data
                     .HasDefaultValueSql("true");
 
                 entity.Property(e => e.Name).IsRequired();
+            });
+
+            modelBuilder.Entity<RefreshToken>(entity =>
+            {
+                entity.Property(e => e.CreationDate).HasDefaultValueSql("now()");
+
+                entity.Property(e => e.JwtId).IsRequired();
+
+                entity.Property(e => e.Token).IsRequired();
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.RefreshToken)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("RefreshToken_UserId_fkey");
             });
 
             modelBuilder.Entity<Role>(entity =>

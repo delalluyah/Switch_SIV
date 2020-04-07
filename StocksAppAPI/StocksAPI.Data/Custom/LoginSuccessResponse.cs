@@ -8,6 +8,7 @@ namespace StocksAPI.Data.Custom
     {
         public bool Success { get; set; }
         public string Token { get; set; }
+        public string RefreshToken { get; set; }
         public LoginErrors Errors { get; set; }
     }
     public class LoginErrors

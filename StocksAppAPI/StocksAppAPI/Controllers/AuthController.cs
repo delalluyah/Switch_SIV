@@ -86,5 +86,29 @@ namespace StocksAppAPI.Controllers
             }
         }
 
+        [HttpPost("Refresh")]
+        public async Task<IActionResult> Login(RefreshTokenRequest request)
+        {
+            try
+            {
+                LoginResponse authResponse = await _identityService.RefreshTokenAsync(request.Token, request.RefreshToken);
+
+                if (authResponse.Success)
+                    return Ok(authResponse);
+                else
+                    return BadRequest(authResponse);
+
+            }
+            catch (Exception e)
+            {
+                _logger.logError(e);
+                return BadRequest(new LoginResponse
+                {
+                    Success = false
+                });
+            }
+        }
+
+
     }
 }
