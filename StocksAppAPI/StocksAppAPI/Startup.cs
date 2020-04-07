@@ -16,6 +16,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using StocksAPI.Data;
 using StocksAPI.Data.Custom;
+using StocksApp.Utilities.Logging;
+using StocksApp.Utilities.Services;
 
 namespace StocksAppAPI
 {
@@ -32,8 +34,10 @@ namespace StocksAppAPI
         public void ConfigureServices(IServiceCollection services)
         {
             var jwtSettings = new JWTSettings();
-            Configuration.Bind(nameof(jwtSettings), jwtSettings);
+            Configuration.Bind("JWTSettings", jwtSettings);
             services.AddSingleton(jwtSettings);
+            services.AddTransient<IIdentityService, IdentityService>();
+            services.AddTransient<Logger>();
 
             services.AddAuthentication(x =>
             {
@@ -53,7 +57,6 @@ namespace StocksAppAPI
                     ValidateLifetime = true
                 };
             });
-
             services.AddControllers();
             services.AddDbContext<AppDbContext>(o => o.UseNpgsql(Configuration.GetConnectionString("DBConnectionString")));
         }
@@ -65,7 +68,6 @@ namespace StocksAppAPI
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseRouting();
@@ -73,10 +75,7 @@ namespace StocksAppAPI
             app.UseEndpoints(endpoints =>
             {
                 //endpoints.MapControllers();
-                endpoints.MapControllerRoute(
-                    "default",
-                    "api/{controller}/{action}/{id?}"
-                    );
+                endpoints.MapControllerRoute("default","api/{controller}/{action}/{id?}");
             });
         }
     }
