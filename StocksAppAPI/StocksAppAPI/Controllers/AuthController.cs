@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -25,12 +26,12 @@ namespace StocksAppAPI.Controllers
             _identityService = identityService;
             _logger = logger;
         }
+       
+        [Authorize]
         [HttpGet("Index")]
         public IActionResult Index()
         {
             var userId = HttpContext.GetUserId();
-            if (string.IsNullOrEmpty(userId))
-                return Ok(new { state = "Uppity" });
             return Ok(new { msg = $"Hello User {userId}!" });
         }
 
@@ -87,7 +88,7 @@ namespace StocksAppAPI.Controllers
         }
 
         [HttpPost("Refresh")]
-        public async Task<IActionResult> Login(RefreshTokenRequest request)
+        public async Task<IActionResult> Refresh(RefreshTokenRequest request)
         {
             try
             {
