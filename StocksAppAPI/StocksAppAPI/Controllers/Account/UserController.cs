@@ -7,30 +7,31 @@ using Microsoft.AspNetCore.Mvc;
 using StocksAPI.Data;
 using StocksApp.Utilities.Logging;
 
-namespace StocksAppAPI.Controllers
+namespace StocksAppAPI.Controllers.Account
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductTypeController : ControllerBase
+    public class UserController : ControllerBase
     {
         private AppDbContext _db;
         private Logger _logger;
 
-        public ProductTypeController(AppDbContext db, Logger logger)
+        public UserController(AppDbContext db, Logger logger)
         {
             _db = db;
             _logger = logger;
         }
 
         [HttpPost("Add")]
-        public async Task<IActionResult> Create(ProductType data)
+        public async Task<IActionResult> Create(User user)
         {
             try
             {
-                var prodnamelower = data.Name.ToLower();
-                if (_db.ProductType.Any(d => d.Name.ToLower() == prodnamelower))
-                    return BadRequest(new { Success = false, Error = "A record with this name already exists" });
-                _db.ProductType.Add(data);
+                var usernamelower = user.Username.ToLower();
+
+                if (_db.User.Any(d => d.Username.ToLower() == usernamelower))
+                    return BadRequest(new { Success = false, Error = "A User with this username already exists" });
+                _db.User.Add(user);
                 await _db.SaveChangesAsync();
                 return Ok(new { Success = true });
             }
@@ -42,16 +43,19 @@ namespace StocksAppAPI.Controllers
         }
 
         [HttpPost("Update")]
-        public async Task<IActionResult> Edit(ProductType data)
+        public async Task<IActionResult> Edit(User user)
         {
             try
             {
-                var prodnamelower = data.Name.ToLower();
-                if (_db.ProductType.Any(d => d.Name.ToLower() == prodnamelower && d.ProductTypeId != data.ProductTypeId))
+                var usernamelower = user.Username.ToLower();
+                if (_db.User.Any(d => d.Username.ToLower() == usernamelower && d.UserId != user.UserId))
                     return BadRequest(new { Success = false, Error = "A record with this name already exists" });
 
-                var entity = _db.ProductType.FirstOrDefault(d => d.ProductTypeId == data.ProductTypeId);
-                entity.Name = data.Name;
+                var entity = _db.User.FirstOrDefault(d => d.UserId == user.UserId);
+                entity.Fullname = user.Fullname;
+                entity.Password = user.Password;
+                entity.Username = user.Username;
+                entity.RoleId = user.RoleId;
                 await _db.SaveChangesAsync();
                 return Ok(new { Success = true });
             }
@@ -67,8 +71,8 @@ namespace StocksAppAPI.Controllers
         {
             try
             {
-                var entity = _db.ProductType.FirstOrDefault(d => d.ProductTypeId == id);
-                _db.ProductType.Remove(entity);
+                var entity = _db.User.FirstOrDefault(d => d.UserId == id);
+                _db.User.Remove(entity);
                 await _db.SaveChangesAsync();
                 return Ok(new { Success = true });
             }
@@ -84,7 +88,7 @@ namespace StocksAppAPI.Controllers
         {
             try
             {
-                var data = _db.ProductType.ToList();
+                var data = _db.User.ToList();
                 return Ok(new { Success = true, Data = data });
             }
             catch (Exception e)
