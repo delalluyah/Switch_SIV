@@ -57,11 +57,12 @@ namespace StocksApp.Utilities.Services
                 };
             }
 
-            var token = GenerateToken(user);
+            var token = await GenerateToken(user);
             return new LoginResponse
             {
-                Token = token,
-                Success = true
+                Token = token.Item1,
+                Success = true,
+                RefreshToken = token.Item2
             };
         }
 
@@ -90,18 +91,99 @@ namespace StocksApp.Utilities.Services
             _db.User.Add(user);
             await _db.SaveChangesAsync();
 
-            var token = GenerateToken(user);
+            var token = await GenerateToken(user);
             return new RegistrationResponse
             {
                 Success = true,
-                Token = token
+                Token = token.Item1,
+                RefreshToken = token.Item2
             };
         }
         public async Task<LoginResponse> RefreshTokenAsync(string token, string refreshToken)
         {
-            throw new NotImplementedException();
+            var validatedToken = GetPrincipalFromToken(token);
+            if (validatedToken == null)
+            {
+                return new LoginResponse()
+                {
+                    Success = false,
+                    Errors = new LoginErrors
+                    {
+                        Token = "Invalid Token"
+                    }
+                };
+            }
+            var expiryDateUnix = long.Parse(validatedToken.Claims.Single(x => x.Type == JwtRegisteredClaimNames.Exp).Value);
+            var expiryDateTimeUTC = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+                .AddSeconds(expiryDateUnix)
+                .Subtract(_jwt.TokenLifetime);
+
+            if (expiryDateTimeUTC > DateTime.UtcNow)
+            {
+                //
+            }
+            var jti = validatedToken.Claims.Single(x => x.Type == JwtRegisteredClaimNames.Jti).Value;
+
+            var storedRefreshToken = _db.RefreshToken.FirstOrDefault(x => x.Token == refreshToken);
+            if (storedRefreshToken == null)
+            {
+                return new LoginResponse()
+                {
+                    Success = false,
+                    Errors = new LoginErrors
+                    {
+                        Token = "Token does not exist"
+                    }
+                };
+            }
+            if (DateTime.UtcNow > storedRefreshToken.ExpirationDate)
+            {
+                return new LoginResponse()
+                {
+                    Success = false,
+                    Errors = new LoginErrors
+                    {
+                        Token = "Refresh Token is expired"
+                    }
+                };
+            }
+            if ((bool)storedRefreshToken.Invalidated || (bool)storedRefreshToken.Used)
+            {
+                return new LoginResponse()
+                {
+                    Success = false,
+                    Errors = new LoginErrors
+                    {
+                        Token = "Refresh Token is invalidated or used"
+                    }
+                };
+            }
+            if (storedRefreshToken.JwtId != jti)
+            {
+                return new LoginResponse()
+                {
+                    Success = false,
+                    Errors = new LoginErrors
+                    {
+                        Token = "Wrong JWT ID"
+                    }
+                };
+            }
+
+            var userId = int.Parse(validatedToken.Claims.Single(x => x.Type == "Id").Value);
+            storedRefreshToken.Used = true;
+            await _db.SaveChangesAsync();
+
+            var newToken = await GenerateToken(_db.User.FirstOrDefault(x => x.UserId == userId));
+            return new LoginResponse
+            {
+                Success = true,
+                Token = newToken.Item1,
+                RefreshToken = newToken.Item2
+            };
+
         }
-        private ClaimsPrincipal GetrincipalFromToken(string token)
+        private ClaimsPrincipal GetPrincipalFromToken(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             try
@@ -122,7 +204,7 @@ namespace StocksApp.Utilities.Services
             return (validatedToken is JwtSecurityToken jwtSecurityToken) &&
                 jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase);
         }
-        private string GenerateToken(User user)
+        private async Task<Tuple<string, string>> GenerateToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwt.Secret);
@@ -140,8 +222,20 @@ namespace StocksApp.Utilities.Services
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
+            var refreshToken = new RefreshToken
+            {
+                UserId = user.UserId,
+                JwtId = token.Id,
+                Used = false,
+                Invalidated = false,
+                CreationDate = DateTime.UtcNow,
+                ExpirationDate = DateTime.UtcNow.AddMonths(6),
+                Token = Guid.NewGuid().ToString()
+            };
+            _db.RefreshToken.Add(refreshToken);
+            await _db.SaveChangesAsync();
 
-            return tokenHandler.WriteToken(token);
+            return new Tuple<string, string>(tokenHandler.WriteToken(token), refreshToken.Token);
         }
     }
 }
