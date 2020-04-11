@@ -15,55 +15,48 @@ export default function SideBar() {
         </div>
       </div>
       <ul className="side-menu">
+        <li className="side-menu-item active">
+          <i className="fas fa-chart-line"></i> <a href="#">Dashboard</a>
+        </li>
+        <li className="side-menu-item">
+          <i className="fas fa-shopping-cart"></i>
+          <a href="#">View Products</a>
+        </li>
+        <li className="side-menu-item">
+          <i className="fas fa-cart-plus"></i>
+          <a href="#">Add New Products</a>
+        </li>
         <li className="side-menu-parent">
-          <ul className="">
+          <ul>
             <p>
               {' '}
-              Menu Item <span className="right fas fa-angle-down"></span>
+              <i className="fas fa-user-cog"></i> Users{' '}
+              <i className="right fas fa-angle-down"></i>
             </p>
             <li className="side-menu-item side-menu-child">
-              <i className="fas fa-chair"></i>
-              <a href="#">Menu Item</a>
+              <i class="fas fa-users"></i>
+              <a href="#">All Users</a>
             </li>
             <li className="side-menu-item side-menu-child">
-              <i className="fas fa-chair"></i>
-              <a href="#">Menu Item</a>
+              <i className="fas fa-user-plus"></i>
+              <a href="#">Add New User</a>
             </li>
           </ul>
         </li>
-        <li className="side-menu-item active">
-          <i className="fas fa-chair"></i>
-          <a href="#">Menu Item</a>
-        </li>
-        <li className="side-menu-item">
-          <i className="fas fa-chair"></i>
-          <a href="#">Menu Item</a>
-        </li>
-        <li className="side-menu-item">
-          <i className="fas fa-chair"></i>
-          <a href="#">Menu Item</a>
-        </li>
-        <li className="side-menu-item">
-          <i className="fas fa-chair"></i>
-          <a href="#">Menu Item</a>
-        </li>
-        <li className="side-menu-item">
-          <i className="fas fa-chair"></i>
-          <a href="#">Menu Item</a>
-        </li>
         <li className="side-menu-parent">
-          <ul className="">
+          <ul>
             <p>
               {' '}
-              Menu Item <i className="right fas fa-angle-down"></i>
+              <i className="fas fa-cog"></i>Configurations{' '}
+              <i className="right fas fa-angle-down"></i>
             </p>
             <li className="side-menu-item side-menu-child">
-              <i className="fas fa-chair"></i>
-              <a href="#">Menu Item</a>
+              <i class="fas fa-list-ul"></i>
+              <a href="#">Product Categories</a>
             </li>
             <li className="side-menu-item side-menu-child">
-              <i className="fas fa-chair"></i>
-              <a href="#">Menu Item</a>
+              <i className="fas fa-sliders-h"></i>
+              <a href="#">Product Types</a>
             </li>
           </ul>
         </li>

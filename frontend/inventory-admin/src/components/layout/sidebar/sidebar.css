@@ -7,7 +7,7 @@
   color: #fff;
   padding-left: 20px;
   padding-top: 30px;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .sidebar .user {
@@ -43,6 +43,7 @@
   width: 100%;
   font-size: 16px;
 }
+
 .side-menu li,
 .side-menu-item {
   min-height: 30px;
@@ -58,7 +59,8 @@
 }
 .side-menu-parent > ul > p {
   text-transform: uppercase;
-  font-weight: 400;
+  font-size: 14px;
+  font-weight: bold;
 }
 .side-menu-parent .right {
   float: right;
@@ -90,4 +92,5 @@
 .side-menu-item.active,
 .side-menu-item.active a {
   color: #2ecc71 !important;
+  display: inline-block;
 }
