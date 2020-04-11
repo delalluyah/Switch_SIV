@@ -1,12 +1,10 @@
 import React from 'react'
+import './navbar.css'
 
 export default () => {
   return (
     <nav className="navbar">
-      <p className="nav-brand"></p>
-      <div className="user-control">
-        <img />
-      </div>
+      <p className="nav-brand">Store Management Solution v1.0</p>
     </nav>
   )
 }

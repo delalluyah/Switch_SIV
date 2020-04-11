@@ -3,6 +3,7 @@ import './App.css'
 import './components/layout/sidebar/SideBar'
 import SideBar from './components/layout/sidebar/SideBar'
 import Brand from './components/layout/header/brand/Brand'
+import Navbar from './components/layout/header/navbar/Navbar'
 function App() {
   return (
     <div className="App">
@@ -11,6 +12,9 @@ function App() {
       </div>
       <div id="brand">
         <Brand />
+      </div>
+      <div id="navbar">
+        <Navbar />
       </div>
     </div>
   )
