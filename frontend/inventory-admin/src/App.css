@@ -1,0 +1,51 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+.App {
+  height: 100vh;
+  display: grid;
+  grid-template-rows: 60px 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
+  background-color: whitesmoke;
+}
+
+/* LG screens */
+@media only screen and (min-width: 1200px) {
+  .App {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+/* MD screens */
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  .App {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+/* SM screens */
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .App {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+/* XS screens */
+@media only screen and (max-width: 768px) {
+  .App {
+    grid-template-rows: 80px 1fr 1fr;
+  }
+}
+
+#side-bar {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 2;
+  grid-row-end: 4;
+}
+#brand {
+  grid-column: 1 1;
+  grid-row: 1 1;
+}
