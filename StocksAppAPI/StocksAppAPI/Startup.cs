@@ -71,6 +71,13 @@ namespace StocksAppAPI
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseCors(options =>
+            {
+                options.AllowAnyOrigin();
+                options.AllowAnyMethod();
+                options.AllowAnyHeader();
+                //options.AllowCredentials();
+            });
             app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseRouting();

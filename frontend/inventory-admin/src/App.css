@@ -6,7 +6,7 @@
   margin: 0;
 }
 
-.App {
+.dashboard {
   height: 100vh;
   display: grid;
   grid-template-rows: 60px 1fr 1fr;
@@ -16,7 +16,7 @@
 
 /* LG screens */
 @media only screen and (min-width: 1200px) {
-  .App {
+  .dashboard {
     grid-template-columns: repeat(5, 1fr);
   }
   #navbar {
@@ -25,7 +25,7 @@
 }
 /* MD screens */
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
-  .App {
+  .dashboard {
     grid-template-columns: repeat(4, 1fr);
   }
   #navbar {
@@ -34,7 +34,7 @@
 }
 /* SM screens */
 @media only screen and (min-width: 768px) and (max-width: 991px) {
-  .App {
+  .dashboard {
     grid-template-columns: repeat(3, 1fr);
   }
   #navbar {

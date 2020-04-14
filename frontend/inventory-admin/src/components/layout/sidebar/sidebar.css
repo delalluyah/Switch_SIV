@@ -11,18 +11,30 @@
 }
 
 .sidebar .user {
-  height: 100px;
+  min-height: 100px;
 }
 .sidebar .user .avatar-container {
-  height: 40px;
-  width: 40px;
-  margin-left: 30px;
+  height: 75px;
+  width: 75px;
+  margin-left: 10px;
   margin-bottom: 10px;
+  overflow: hidden;
 }
+
 .sidebar .user .avatar {
   border-radius: 50%;
   height: 100%;
   width: 100%;
+  display: block;
+  margin-left: auto;
+  border: #ebebeb 2px solid;
+}
+.hr {
+  color: #ebebeb;
+  border-color: #ebebeb;
+  opacity: 0.2;
+  margin: 20px 0;
+  margin-left: -20px;
 }
 .sidebar .user-info {
   padding-left: 8px;
