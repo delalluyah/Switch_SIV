@@ -4,6 +4,8 @@ import Input from '../../shared/Input'
 import './login.css'
 import Button from '../../shared/Button'
 import constants from '../../constants'
+import shelfbg1 from './shelf.jpg'
+import shelfbg2 from './shelf1.jpeg'
 
 export default () => {
   const initialState = { username: '', password: '' }
@@ -24,14 +26,14 @@ export default () => {
           'Content-Type': 'application/json',
         },
 
-        body: JSON.stringify({
-          Username: 'jdoe',
-          Password: '123456',
-        }),
         // body: JSON.stringify({
-        //   Username: state.username,
-        //   Password: state.password,
+        //   Username: 'jdoe',
+        //   Password: '123456',
         // }),
+        body: JSON.stringify({
+          Username: state.username,
+          Password: state.password,
+        }),
       })
 
       resp = await resp.json()
@@ -41,33 +43,39 @@ export default () => {
     }
   }
   return (
-    <div className="login">
-      {' '}
-      <div className="login-box">
-        <Card header="Login" subtitle="Login with your admin credentials">
-          <div style={{ display: 'block', margin: 'auto' }}>
-            <form onSubmit={onSubmit}>
-              <Input
-                label="Username:"
-                value={state.username}
-                onChange={onTextChange}
-                name="username"
-                type="text"
-                placeholder="John Doe"
-              />
-              <Input
-                label="Password"
-                value={state.password}
-                onChange={onTextChange}
-                name="password"
-                type="password"
-                placeholder="******"
-              />
-              <Button type="submit" text="Submit" />
-            </form>
-          </div>
-        </Card>
+    <>
+      <div className="full-page">
+        <div className="login"> </div>
+        <div className="login-box">
+          <Card
+            transparent={true}
+            header="Login"
+            subtitle="Login with your admin credentials"
+          >
+            <div style={{ display: 'block', margin: 'auto' }}>
+              <form onSubmit={onSubmit}>
+                <Input
+                  label="Username:"
+                  value={state.username}
+                  onChange={onTextChange}
+                  name="username"
+                  type="text"
+                  placeholder="John Doe"
+                />
+                <Input
+                  label="Password"
+                  value={state.password}
+                  onChange={onTextChange}
+                  name="password"
+                  type="password"
+                  placeholder="******"
+                />
+                <Button type="submit" text="Submit" />
+              </form>
+            </div>
+          </Card>
+        </div>
       </div>
-    </div>
+    </>
   )
 }

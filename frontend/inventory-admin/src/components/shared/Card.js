@@ -1,15 +1,5 @@
 import React from 'react'
 
-const cardStyle = {
-  width: '100%',
-  height: '100%',
-  backgroundColor: '#fff',
-  color: '#000',
-  border: 'none',
-  boxShadow: '0.5px 0.5px 10px 0.5px rgba(0,0,0,0.1)',
-  minWidth: '50px',
-  minHeight: '50px',
-}
 const headerStyle = {
   color: '#fff',
   backgroundColor: '#2ecc71',
@@ -28,7 +18,18 @@ const subtitleStyle = {
 }
 const hrStyle = { color: '#000', opacity: '0.2', margin: '10px 0' }
 
-export default ({ children, header, subtitle }) => {
+export default ({ children, header, subtitle, transparent = false }) => {
+  let cardStyle = {
+    width: '100%',
+    height: '100%',
+    backgroundColor: transparent ? 'rgba(255,255,255,0.2)' : '#fff',
+    color: '#000',
+    border: 'none',
+    boxShadow: '0.5px 0.5px 10px 0.5px rgba(0,0,0,0.1)',
+    minWidth: '50px',
+    minHeight: '50px',
+  }
+
   return (
     <div className="card" style={cardStyle}>
       {header && (
