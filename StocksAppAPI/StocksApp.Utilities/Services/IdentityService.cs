@@ -39,9 +39,9 @@ namespace StocksApp.Utilities.Services
                 return new LoginResponse
                 {
                     Success = false,
-                    Errors = new LoginErrors
+                    Errors = new List<string>
                     {
-                        Username = "User does not exist"
+                       "User does not exist"
                     }
                 };
             }
@@ -50,9 +50,9 @@ namespace StocksApp.Utilities.Services
                 return new LoginResponse
                 {
                     Success = false,
-                    Errors = new LoginErrors
+                    Errors = new List<string>
                     {
-                        Password = "Password is incorrect"
+                         "Password is incorrect"
                     }
                 };
             }
@@ -74,9 +74,9 @@ namespace StocksApp.Utilities.Services
             {
                 return new RegistrationResponse
                 {
-                    Errors = new RegisterErrors
+                    Errors = new List<string>
                     {
-                        Username = "A user with this username already exists",
+                        "A user with this username already exists",
                     }
                 };
             }
@@ -107,9 +107,9 @@ namespace StocksApp.Utilities.Services
                 return new LoginResponse()
                 {
                     Success = false,
-                    Errors = new LoginErrors
+                    Errors = new List<string>
                     {
-                        Token = "Invalid Token"
+                        "Invalid Token"
                     }
                 };
             }
@@ -127,12 +127,12 @@ namespace StocksApp.Utilities.Services
             var storedRefreshToken = _db.RefreshToken.FirstOrDefault(x => x.Token == refreshToken);
             if (storedRefreshToken == null)
             {
-                return new LoginResponse()
+                return new LoginResponse
                 {
                     Success = false,
-                    Errors = new LoginErrors
+                    Errors = new List<string>
                     {
-                        Token = "Token does not exist"
+                         "Token does not exist"
                     }
                 };
             }
@@ -141,9 +141,9 @@ namespace StocksApp.Utilities.Services
                 return new LoginResponse()
                 {
                     Success = false,
-                    Errors = new LoginErrors
+                    Errors = new List<string>
                     {
-                        Token = "Refresh Token is expired"
+                        "Refresh Token is expired"
                     }
                 };
             }
@@ -152,9 +152,9 @@ namespace StocksApp.Utilities.Services
                 return new LoginResponse()
                 {
                     Success = false,
-                    Errors = new LoginErrors
+                    Errors = new List<string>
                     {
-                        Token = "Refresh Token is invalidated or used"
+                       "Refresh Token is invalidated or used"
                     }
                 };
             }
@@ -163,9 +163,9 @@ namespace StocksApp.Utilities.Services
                 return new LoginResponse()
                 {
                     Success = false,
-                    Errors = new LoginErrors
+                    Errors = new List<string>
                     {
-                        Token = "Wrong JWT ID"
+                        "Wrong JWT ID"
                     }
                 };
             }

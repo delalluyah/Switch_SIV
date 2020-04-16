@@ -4,10 +4,10 @@ import Input from '../../shared/Input'
 import './login.css'
 import Button from '../../shared/Button'
 import constants from '../../constants'
-import shelfbg1 from './shelf.jpg'
-import shelfbg2 from './shelf1.jpeg'
+import utils from '../../../utils'
+import { connect } from 'react-redux'
 
-export default () => {
+const Login = ({ setError }) => {
   const initialState = { username: '', password: '' }
   const [state, setState] = useState(initialState)
   const onTextChange = async (e) => {
@@ -16,7 +16,12 @@ export default () => {
   const onSubmit = async (e) => {
     e.preventDefault()
 
-    console.log('currstate', state)
+    if (state.username === '') {
+      setError('Username cannot be empty')
+    }
+    if (state.password === '') {
+      setError('Password cannot be empty')
+    }
     try {
       let resp = await fetch(constants.backendApi.login, {
         method: 'POST',
@@ -25,11 +30,6 @@ export default () => {
         headers: {
           'Content-Type': 'application/json',
         },
-
-        // body: JSON.stringify({
-        //   Username: 'jdoe',
-        //   Password: '123456',
-        // }),
         body: JSON.stringify({
           Username: state.username,
           Password: state.password,
@@ -38,6 +38,9 @@ export default () => {
 
       resp = await resp.json()
       if (resp.success) localStorage.setItem('inventory_us_cred', resp.token)
+      else {
+        resp.errors.forEach((err) => setError(err))
+      }
     } catch (ex) {
       console.log(ex)
     }
@@ -60,7 +63,7 @@ export default () => {
                   onChange={onTextChange}
                   name="username"
                   type="text"
-                  placeholder="John Doe"
+                  placeholder="johndoe"
                 />
                 <Input
                   label="Password"
@@ -68,7 +71,7 @@ export default () => {
                   onChange={onTextChange}
                   name="password"
                   type="password"
-                  placeholder="******"
+                  placeholder="********"
                 />
                 <Button type="submit" text="Submit" />
               </form>
@@ -79,3 +82,7 @@ export default () => {
     </>
   )
 }
+const mapStateToProps = ({ auth }) => ({
+  auth,
+})
+export default connect(mapStateToProps, { setError: utils.setError })(Login)

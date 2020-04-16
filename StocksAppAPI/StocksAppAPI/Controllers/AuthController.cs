@@ -26,7 +26,7 @@ namespace StocksAppAPI.Controllers
             _identityService = identityService;
             _logger = logger;
         }
-       
+
         [Authorize]
         [HttpGet("Index")]
         public IActionResult Index()
@@ -70,19 +70,18 @@ namespace StocksAppAPI.Controllers
             try
             {
                 LoginResponse authResponse = await _identityService.LoginAsync(request.Username, request.Password);
-
-                if (authResponse.Success)
-                    return Ok(authResponse);
-                else
-                    return BadRequest(authResponse);
-
+                return Ok(authResponse);
             }
             catch (Exception e)
             {
                 _logger.logError(e);
-                return BadRequest(new LoginResponse
+                return Ok(new LoginResponse
                 {
-                    Success = false
+                    Success = false,
+                    Errors = new List<string>
+                    {
+                        "Sorry an error occured, please try again"
+                    }
                 });
             }
         }
@@ -93,19 +92,18 @@ namespace StocksAppAPI.Controllers
             try
             {
                 LoginResponse authResponse = await _identityService.RefreshTokenAsync(request.Token, request.RefreshToken);
-
-                if (authResponse.Success)
-                    return Ok(authResponse);
-                else
-                    return BadRequest(authResponse);
-
+                return Ok(authResponse);
             }
             catch (Exception e)
             {
                 _logger.logError(e);
-                return BadRequest(new LoginResponse
+                return Ok(new LoginResponse
                 {
-                    Success = false
+                    Success = false,
+                    Errors = new List<string>
+                    {
+                        "Sorry an error occured, please try again"
+                    }
                 });
             }
         }

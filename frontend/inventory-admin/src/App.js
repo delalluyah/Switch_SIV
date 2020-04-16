@@ -6,18 +6,23 @@ import Brand from './components/layout/header/brand/Brand'
 import Navbar from './components/layout/header/navbar/Navbar'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Login from './components/auth/login/Login'
+import { Provider } from 'react-redux'
+import store from './store'
+import PrivateRoute from './components/PrivateRoute'
+import AlertBox from './components/shared/alertbox/AlertBox'
 function App() {
   return (
-    <Router>
-      <Switch>
-        <Route exact path="/">
-          <Dashboard />
-        </Route>
-        <Route exact path="/auth">
-          <Login />
-        </Route>
-      </Switch>
-    </Router>
+    <Provider store={store}>
+      <AlertBox />
+      <Router>
+        <Switch>
+          <Route exact path="/auth">
+            <Login />
+          </Route>
+          <PrivateRoute path="/" component={Dashboard} />
+        </Switch>
+      </Router>
+    </Provider>
   )
 }
 
@@ -33,6 +38,7 @@ const Dashboard = () => {
       <div id="navbar">
         <Navbar />
       </div>
+      <div id="main-body"></div>
     </div>
   )
 }
