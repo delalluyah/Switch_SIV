@@ -206,6 +206,7 @@ namespace StocksApp.Utilities.Services
         }
         private async Task<Tuple<string, string>> GenerateToken(User user)
         {
+            var role = _db.Role.FirstOrDefault(r => r.RoleId == user.RoleId);
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwt.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor()
@@ -216,7 +217,8 @@ namespace StocksApp.Utilities.Services
                     new Claim(JwtRegisteredClaimNames.UniqueName, user.Username),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new Claim(JwtRegisteredClaimNames.GivenName, user.Fullname),
-                    new Claim("Id", user.UserId.ToString())
+                    new Claim("Id", user.UserId.ToString()),
+                    new Claim("Role", role.Name)
                 }),
                 Expires = DateTime.UtcNow.Add(_jwt.TokenLifetime),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

@@ -2,7 +2,7 @@ import React from 'react'
 import './sidebar.css'
 import user from './user.svg'
 
-export default function SideBar() {
+export default function SideBar({ fullname = '', role = '' }) {
   return (
     <div className="sidebar">
       <div className="user">
@@ -15,8 +15,8 @@ export default function SideBar() {
           <img alt="avatar" className="avatar" src={user} />
         </div>
         <div className="user-info">
-          <p className="fullname">William Shakespeare</p>
-          <p className="role">Administrator</p>
+          <p className="fullname">{fullname}</p>
+          <p className="role">{role}</p>
         </div>
       </div>
       <hr className="hr" />

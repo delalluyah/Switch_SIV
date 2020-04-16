@@ -1,16 +1,20 @@
 import React from 'react'
 import './App.css'
 import './components/layout/sidebar/SideBar'
-import SideBar from './components/layout/sidebar/SideBar'
-import Brand from './components/layout/header/brand/Brand'
-import Navbar from './components/layout/header/navbar/Navbar'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Login from './components/auth/login/Login'
 import { Provider } from 'react-redux'
 import store from './store'
 import PrivateRoute from './components/PrivateRoute'
 import AlertBox from './components/shared/alertbox/AlertBox'
+import utils from './utils'
+import actions from './store/actions'
+import Dashboard from './Dashboard'
+
 function App() {
+  let user = utils.getUserDetails()
+  store.dispatch({ type: actions.SET_CURRENT_USER, payload: user })
+  //if (user.fullname) utils.setMessage(`Welcome, ${user.fullname}`)
   return (
     <Provider store={store}>
       <AlertBox />
@@ -23,23 +27,6 @@ function App() {
         </Switch>
       </Router>
     </Provider>
-  )
-}
-
-const Dashboard = () => {
-  return (
-    <div className="dashboard">
-      <div id="side-bar">
-        <SideBar />
-      </div>
-      <div id="brand">
-        <Brand />
-      </div>
-      <div id="navbar">
-        <Navbar />
-      </div>
-      <div id="main-body"></div>
-    </div>
   )
 }
 

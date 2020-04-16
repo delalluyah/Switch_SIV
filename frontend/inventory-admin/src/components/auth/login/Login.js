@@ -7,7 +7,7 @@ import constants from '../../constants'
 import utils from '../../../utils'
 import { connect } from 'react-redux'
 
-const Login = ({ setError }) => {
+const Login = ({ setError, setMessage, setUser }) => {
   const initialState = { username: '', password: '' }
   const [state, setState] = useState(initialState)
   const onTextChange = async (e) => {
@@ -18,30 +18,25 @@ const Login = ({ setError }) => {
 
     if (state.username === '') {
       setError('Username cannot be empty')
+      return
     }
     if (state.password === '') {
       setError('Password cannot be empty')
+      return
     }
     try {
-      let resp = await fetch(constants.backendApi.login, {
-        method: 'POST',
-        mode: 'cors',
-        cache: 'no-cache',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          Username: state.username,
-          Password: state.password,
-        }),
-      })
-
-      resp = await resp.json()
-      if (resp.success) localStorage.setItem('inventory_us_cred', resp.token)
-      else {
+      let resp = await utils.postdata(state, constants.backendApi.login)
+      if (resp.success) {
+        //setMessage('Login successful')
+        localStorage.setItem('inventory_us_cred', resp.token)
+        const user = utils.getUserDetails()
+        setUser(user)
+        window.location.href = '/'
+      } else {
         resp.errors.forEach((err) => setError(err))
       }
     } catch (ex) {
+      setError('Sorry an error occured, please try again')
       console.log(ex)
     }
   }
@@ -58,7 +53,7 @@ const Login = ({ setError }) => {
             <div style={{ display: 'block', margin: 'auto' }}>
               <form onSubmit={onSubmit}>
                 <Input
-                  label="Username:"
+                  label="Username"
                   value={state.username}
                   onChange={onTextChange}
                   name="username"
@@ -85,4 +80,8 @@ const Login = ({ setError }) => {
 const mapStateToProps = ({ auth }) => ({
   auth,
 })
-export default connect(mapStateToProps, { setError: utils.setError })(Login)
+export default connect(mapStateToProps, {
+  setError: utils.setError,
+  setMessage: utils.setMessage,
+  setUser: utils.setUser,
+})(Login)

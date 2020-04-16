@@ -47,19 +47,15 @@ namespace StocksAppAPI.Controllers
             try
             {
                 var authResponse = await _identityService.RegisterAsync(request.FullName, request.Username, request.Password, request.RoleId);
-
-                if (authResponse.Success)
                     return Ok(authResponse);
-                else
-                    return BadRequest(authResponse);
-
             }
             catch (Exception e)
             {
                 _logger.logError(e);
                 return BadRequest(new RegistrationResponse
                 {
-                    Success = false
+                    Success = false,
+                    Errors = new List<string>() { "Sorry an error occured, please try again"}
                 });
             }
         }
@@ -78,10 +74,7 @@ namespace StocksAppAPI.Controllers
                 return Ok(new LoginResponse
                 {
                     Success = false,
-                    Errors = new List<string>
-                    {
-                        "Sorry an error occured, please try again"
-                    }
+                    Errors = new List<string>{"Sorry an error occured, please try again"}
                 });
             }
         }
