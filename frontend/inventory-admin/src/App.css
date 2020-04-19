@@ -13,13 +13,23 @@
   grid-template-columns: repeat(3, 1fr);
   background-color: #f2f2f3;
 }
+.dashboard #main-body {
+  grid-row-start: 2;
+  grid-column-start: 2;
+  grid-row-end: 4;
+  padding: 10px 25px;
+  width: 100%;
+  overflow: scroll;
+}
 
 /* LG screens */
 @media only screen and (min-width: 1200px) {
   .dashboard {
     grid-template-columns: repeat(5, 1fr);
   }
-  #navbar {
+
+  #navbar,
+  #main-body {
     grid-column-end: 6;
   }
 }
@@ -28,7 +38,8 @@
   .dashboard {
     grid-template-columns: repeat(4, 1fr);
   }
-  #navbar {
+  #navbar,
+  #main-body {
     grid-column-end: 5;
   }
 }
@@ -37,13 +48,15 @@
   .dashboard {
     grid-template-columns: repeat(3, 1fr);
   }
-  #navbar {
+  #navbar,
+  #main-body {
     grid-column-end: 4;
   }
 }
 /* XS screens */
 @media only screen and (max-width: 768px) {
-  #navbar {
+  #navbar,
+  #main-body {
     grid-column-end: 4;
   }
 }

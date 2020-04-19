@@ -22,15 +22,15 @@ export default function SideBar({ fullname = '', role = '' }) {
       <hr className="hr" />
       <ul className="side-menu">
         <li className="side-menu-item active">
-          <i className="fas fa-chart-line"></i> <a href="#!">Dashboard</a>
+          <i className="fas fa-chart-line"></i> <a href="/">Dashboard</a>
         </li>
         <li className="side-menu-item">
           <i className="fas fa-shopping-cart"></i>
-          <a href="#!">View Products</a>
+          <a href="/products">View Products</a>
         </li>
         <li className="side-menu-item">
           <i className="fas fa-cart-plus"></i>
-          <a href="#!">Add New Products</a>
+          <a href="/add-products">Add New Products</a>
         </li>
         <li className="side-menu-parent">
           <ul>
@@ -41,11 +41,11 @@ export default function SideBar({ fullname = '', role = '' }) {
             </p>
             <li className="side-menu-item side-menu-child">
               <i className="fas fa-users"></i>
-              <a href="#!">All Users</a>
+              <a href="/users">All Users</a>
             </li>
             <li className="side-menu-item side-menu-child">
               <i className="fas fa-user-plus"></i>
-              <a href="#!">Add New User</a>
+              <a href="/add-users">Add New User</a>
             </li>
           </ul>
         </li>
@@ -58,11 +58,11 @@ export default function SideBar({ fullname = '', role = '' }) {
             </p>
             <li className="side-menu-item side-menu-child">
               <i className="fas fa-list-ul"></i>
-              <a href="#!">Product Categories</a>
+              <a href="/categories">Product Categories</a>
             </li>
             <li className="side-menu-item side-menu-child">
               <i className="fas fa-sliders-h"></i>
-              <a href="#!">Product Types</a>
+              <a href="/types">Product Types</a>
             </li>
           </ul>
         </li>

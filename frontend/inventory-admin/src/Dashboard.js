@@ -5,8 +5,8 @@ import Navbar from './components/layout/header/navbar/Navbar'
 import { connect } from 'react-redux'
 import utils from './utils'
 
-const Dashboard = ({ user, setMessage }) => {
-  setMessage(`Welcome, ${user.fullname}`)
+const Dashboard = ({ user, setMessage, children }) => {
+  //setMessage(`Welcome, ${user.fullname}`)
   return (
     <div className="dashboard">
       <div id="side-bar">
@@ -18,7 +18,7 @@ const Dashboard = ({ user, setMessage }) => {
       <div id="navbar">
         <Navbar />
       </div>
-      <div id="main-body"></div>
+      <div id="main-body">{children}</div>
     </div>
   )
 }

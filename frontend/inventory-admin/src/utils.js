@@ -1,5 +1,6 @@
 import actions from './store/actions'
 import jwt_decode from 'jwt-decode'
+import { createBrowserHistory } from 'history'
 
 export default {
   isEmptyObject: (obj) => Object.keys(obj).length < 1,
@@ -39,6 +40,7 @@ export default {
         fullname: decoded.given_name,
         username: decoded.unique_name,
         role: decoded.Role,
+        expiry: decoded.exp,
       }
       return user
     } else return {}
@@ -46,5 +48,11 @@ export default {
   setUser: (user) => (dispatch) => {
     if (!user) user = this.getUserDetails()
     dispatch({ type: actions.SET_CURRENT_USER, payload: user })
+  },
+  history: createBrowserHistory(),
+  userTokenExpired: (user) => {
+    if (Object.keys(user) < 1) return false
+    const currDate = Date.now() / 1000
+    return user.expiry <= currDate
   },
 }

@@ -6,8 +6,9 @@ import Button from '../../shared/Button'
 import constants from '../../constants'
 import utils from '../../../utils'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
 
-const Login = ({ setError, setMessage, setUser }) => {
+const Login = ({ setError, setMessage, setUser, history }) => {
   const initialState = { username: '', password: '' }
   const [state, setState] = useState(initialState)
   const onTextChange = async (e) => {
@@ -31,7 +32,9 @@ const Login = ({ setError, setMessage, setUser }) => {
         localStorage.setItem('inventory_us_cred', resp.token)
         const user = utils.getUserDetails()
         setUser(user)
-        window.location.href = '/'
+        history.push('/')
+        if (user.fullname) setMessage(`Welcome, ${user.fullname}`)
+        //window.location.href = '/'
       } else {
         resp.errors.forEach((err) => setError(err))
       }
@@ -84,4 +87,4 @@ export default connect(mapStateToProps, {
   setError: utils.setError,
   setMessage: utils.setMessage,
   setUser: utils.setUser,
-})(Login)
+})(withRouter(Login))
