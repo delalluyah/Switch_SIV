@@ -32,9 +32,7 @@ function ProductTypes({ setMessage, setError, history }) {
     })
   }
   const deleteType = async (id) => {
-    const resp = await utils.deletedata(
-      constants.backendApi.delete_category + id
-    )
+    const resp = await utils.deletedata(constants.backendApi.delete_type + id)
     if (resp.success) {
       fetchGridData()
       setMessage('Record deleted successfully')
