@@ -34,7 +34,6 @@ const Login = ({ setError, setMessage, setUser, history }) => {
         setUser(user)
         history.push('/')
         if (user.fullname) setMessage(`Welcome, ${user.fullname}`)
-        //window.location.href = '/'
       } else {
         resp.errors.forEach((err) => setError(err))
       }

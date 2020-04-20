@@ -3,7 +3,6 @@ import Input from '../shared/Input'
 import TextArea from '../shared/TextArea'
 import Card from '../shared/Card'
 import DropDownList from '../shared/DropDownList'
-//import { DropDownList } from '@progress/kendo-react-dropdowns'
 
 export default function AddProduct() {
   const categories = [

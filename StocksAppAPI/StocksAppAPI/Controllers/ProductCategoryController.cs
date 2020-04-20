@@ -31,7 +31,7 @@ namespace StocksAppAPI.Controllers
             {
                 var prodnamelower = data.Name.ToLower();
                 if (_db.ProductCategory.Any(d => d.Name.ToLower() == prodnamelower))
-                    return BadRequest( new { Success= false,Error="A record with this name already exists" });
+                    return Ok( new { Success= false,Error="A record with this name already exists" });
                 _db.ProductCategory.Add(data);
                 await _db.SaveChangesAsync();
                 return Ok(new { Success = true });
@@ -40,7 +40,7 @@ namespace StocksAppAPI.Controllers
             {
                 _logger.logError(e);
             }
-            return BadRequest(new {Success = false });
+            return Ok(new {Success = false });
         }
 
         [HttpPost("Update")]
@@ -50,7 +50,7 @@ namespace StocksAppAPI.Controllers
             {
                 var prodnamelower = data.Name.ToLower();
                 if (_db.ProductCategory.Any(d => d.Name.ToLower() == prodnamelower && d.ProductCategoryId != data.ProductCategoryId))
-                    return BadRequest(new { Success = false, Error = "A record with this name already exists" });
+                    return Ok(new { Success = false, Error = "A record with this name already exists" });
 
                 var entity = _db.ProductCategory.FirstOrDefault(d=>d.ProductCategoryId == data.ProductCategoryId);
                 entity.Name = data.Name;
@@ -61,7 +61,7 @@ namespace StocksAppAPI.Controllers
             {
                 _logger.logError(e);
             }
-            return BadRequest(new {Success = false });
+            return Ok(new {Success = false });
         }
         
         [HttpDelete("Delete/{id}")]
@@ -78,7 +78,7 @@ namespace StocksAppAPI.Controllers
             {
                 _logger.logError(e);
             }
-            return BadRequest(new {Success = false });
+            return Ok(new {Success = false });
         }
 
         [HttpGet("Index")]
@@ -93,7 +93,7 @@ namespace StocksAppAPI.Controllers
             {
                 _logger.logError(e);
             }
-            return BadRequest(new {Success = false ,Data = new List<object>()});
+            return Ok(new {Success = false ,Data = new List<object>()});
         }
     }
 }

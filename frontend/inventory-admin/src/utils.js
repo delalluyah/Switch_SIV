@@ -28,7 +28,7 @@ export default {
       })
       return await resp.json()
     } catch (e) {
-      this.setError('Sorry, an error occured. Please try again')
+      //this.setError('Sorry, an error occured. Please try again')
     }
   },
 
