@@ -15,6 +15,8 @@ import ProductsDashboard from './components/products/Products-Dashboard'
 import AddProduct from './components/products/AddProduct'
 import ProductCategory from './components/products/AddProductCategory'
 import ProductCategories from './components/products/ProductCategories'
+import ProductTypes from './components/products/ProductTypes'
+import AddProductType from './components/products/AddProductType'
 
 function App() {
   useEffect(() => {
@@ -59,6 +61,16 @@ function App() {
             path="/categories"
             component={Dashboard}
             subComponent={ProductCategories}
+          />
+          <PrivateRoute
+            path="/add-type"
+            component={Dashboard}
+            subComponent={AddProductType}
+          />
+          <PrivateRoute
+            path="/types"
+            component={Dashboard}
+            subComponent={ProductTypes}
           />
           <PrivateRoute
             path="/"

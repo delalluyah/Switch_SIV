@@ -5,6 +5,9 @@ const constants = {
     add_category: baseUrl + '/productcategory/add',
     get_categories: baseUrl + '/productcategory/index',
     delete_category: baseUrl + '/productcategory/delete/',
+    add_type: baseUrl + '/producttype/add/',
+    get_types: baseUrl + '/producttype/index/',
+    delete_type: baseUrl + '/producttype/delete/',
   },
 }
 

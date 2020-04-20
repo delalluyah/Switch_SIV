@@ -28,8 +28,8 @@ namespace StocksAppAPI.Controllers
             try
             {
                 var prodnamelower = data.Name.ToLower();
-                if (_db.ProductType.Any(d => d.Name.ToLower() == prodnamelower))
-                    return BadRequest(new { Success = false, Error = "A record with this name already exists" });
+                if (_db.ProductType.Any(d => d.Name.ToLower() == prodnamelower && d.Active == true))
+                    return Ok(new { Success = false, Error = "A record with this name already exists" });
                 _db.ProductType.Add(data);
                 await _db.SaveChangesAsync();
                 return Ok(new { Success = true });
@@ -38,7 +38,7 @@ namespace StocksAppAPI.Controllers
             {
                 _logger.logError(e);
             }
-            return BadRequest(new { Success = false });
+            return Ok(new { Success = false });
         }
 
         [HttpPost("Update")]
@@ -47,8 +47,8 @@ namespace StocksAppAPI.Controllers
             try
             {
                 var prodnamelower = data.Name.ToLower();
-                if (_db.ProductType.Any(d => d.Name.ToLower() == prodnamelower && d.ProductTypeId != data.ProductTypeId))
-                    return BadRequest(new { Success = false, Error = "A record with this name already exists" });
+                if (_db.ProductType.Any(d => d.Name.ToLower() == prodnamelower && d.ProductTypeId != data.ProductTypeId && d.Active == true))
+                    return Ok(new { Success = false, Error = "A record with this name already exists" });
 
                 var entity = _db.ProductType.FirstOrDefault(d => d.ProductTypeId == data.ProductTypeId);
                 entity.Name = data.Name;
@@ -59,7 +59,7 @@ namespace StocksAppAPI.Controllers
             {
                 _logger.logError(e);
             }
-            return BadRequest(new { Success = false });
+            return Ok(new { Success = false });
         }
 
         [HttpDelete("Delete/{id}")]
@@ -68,7 +68,7 @@ namespace StocksAppAPI.Controllers
             try
             {
                 var entity = _db.ProductType.FirstOrDefault(d => d.ProductTypeId == id);
-                _db.ProductType.Remove(entity);
+                entity.Active = false;
                 await _db.SaveChangesAsync();
                 return Ok(new { Success = true });
             }
@@ -76,7 +76,7 @@ namespace StocksAppAPI.Controllers
             {
                 _logger.logError(e);
             }
-            return BadRequest(new { Success = false });
+            return Ok(new { Success = false });
         }
 
         [HttpGet("Index")]
@@ -84,14 +84,14 @@ namespace StocksAppAPI.Controllers
         {
             try
             {
-                var data = _db.ProductType.ToList();
+                var data = _db.ProductType.Where(d => d.Active == true).ToList();
                 return Ok(new { Success = true, Data = data });
             }
             catch (Exception e)
             {
                 _logger.logError(e);
             }
-            return BadRequest(new { Success = false, Data = new List<object>() });
+            return Ok(new { Success = false, Data = new List<object>() });
         }
     }
 }
