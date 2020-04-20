@@ -31,6 +31,42 @@ export default {
       //this.setError('Sorry, an error occured. Please try again')
     }
   },
+  getdata: async (url) => {
+    try {
+      let token = localStorage.getItem('inventory_us_cred')
+      if (!token) token = ''
+      let resp = await fetch(url, {
+        method: 'GET',
+        mode: 'cors',
+        cache: 'no-cache',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'bearer ' + token,
+        },
+      })
+      return await resp.json()
+    } catch (e) {
+      //this.setError('Sorry, an error occured. Please try again')
+    }
+  },
+  deletedata: async (url) => {
+    try {
+      let token = localStorage.getItem('inventory_us_cred')
+      if (!token) token = ''
+      let resp = await fetch(url, {
+        method: 'DELETE',
+        mode: 'cors',
+        cache: 'no-cache',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'bearer ' + token,
+        },
+      })
+      return await resp.json()
+    } catch (e) {
+      //this.setError('Sorry, an error occured. Please try again')
+    }
+  },
 
   getUserDetails: () => {
     if (localStorage.inventory_us_cred) {

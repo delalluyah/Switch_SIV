@@ -11,8 +11,9 @@ function AddProductCategory({ setMessage, setError, history }) {
   const [state, setState] = useState({ name: '', id: 0 })
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if (state.name === '') {
+    if (state.name.trim() === '') {
       setError('Category name cannot be empty')
+      return
     }
     try {
       let resp = await utils.postdata(state, constants.backendApi.add_category)

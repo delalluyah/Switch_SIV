@@ -14,6 +14,7 @@ import DashboardHome from './components/dashboard/Dashboard-Home'
 import ProductsDashboard from './components/products/Products-Dashboard'
 import AddProduct from './components/products/AddProduct'
 import ProductCategory from './components/products/AddProductCategory'
+import ProductCategories from './components/products/ProductCategories'
 
 function App() {
   useEffect(() => {
@@ -53,6 +54,11 @@ function App() {
             path="/add-category"
             component={Dashboard}
             subComponent={ProductCategory}
+          />
+          <PrivateRoute
+            path="/categories"
+            component={Dashboard}
+            subComponent={ProductCategories}
           />
           <PrivateRoute
             path="/"
