@@ -4,6 +4,8 @@ import Brand from './components/layout/header/brand/Brand'
 import Navbar from './components/layout/header/navbar/Navbar'
 import { connect } from 'react-redux'
 import utils from './utils'
+import '@progress/kendo-theme-material/dist/all.css'
+import '@progress/kendo-ui'
 
 const Dashboard = ({ user, setMessage, children }) => {
   //setMessage(`Welcome, ${user.fullname}`)

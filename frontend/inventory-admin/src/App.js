@@ -12,6 +12,7 @@ import actions from './store/actions'
 import Dashboard from './Dashboard'
 import DashboardHome from './components/dashboard/Dashboard-Home'
 import ProductsDashboard from './components/products/Products-Dashboard'
+import AddProduct from './components/products/AddProduct'
 
 function App() {
   useEffect(() => {
@@ -40,6 +41,12 @@ function App() {
             path="/products"
             component={Dashboard}
             subComponent={ProductsDashboard}
+          />
+          <PrivateRoute
+            exact
+            path="/add-products"
+            component={Dashboard}
+            subComponent={AddProduct}
           />
           <PrivateRoute
             path="/"
