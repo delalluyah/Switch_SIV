@@ -30,7 +30,7 @@ export default function SideBar({ fullname = '', role = '' }) {
         </li>
         <li className="side-menu-item">
           <i className="fas fa-cart-plus"></i>
-          <a href="/add-products">Add New Products</a>
+          <a href="/add-products">Add New Product</a>
         </li>
         <li className="side-menu-parent">
           <ul>

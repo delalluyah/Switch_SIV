@@ -12,13 +12,14 @@ const inputStyle = {
 
 export default ({
   onChange = () => {},
-  value,
+  value = '',
   placeholder = '',
   name,
   label,
   data = [{}],
-  valueFieldName = 'Id',
-  textFieldName = 'Name',
+  valueFieldName = 'id',
+  textFieldName = 'name',
+  optionLabel = '-- SELECT --',
 }) => {
   return (
     <div className="form-input">
@@ -29,16 +30,22 @@ export default ({
         onChange={onChange}
         placeholder={placeholder}
         name={name}
+        value={value}
       >
-        {data.map((el) => {
-          if (el[valueFieldName] === value)
+        <option value="">{optionLabel}</option>
+        {data.map((el, index) => {
+          /* if (el[valueFieldName] === value)
             return (
               <option value={el[valueFieldName]} selected>
                 {el[textFieldName]}
               </option>
-            )
+            ) */
 
-          return <option value={el[valueFieldName]}>{el[textFieldName]}</option>
+          return (
+            <option key={index} value={el[valueFieldName]}>
+              {el[textFieldName]}
+            </option>
+          )
         })}
       </select>
     </div>

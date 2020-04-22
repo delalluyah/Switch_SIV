@@ -3,7 +3,7 @@ import React from 'react'
 const inputStyle = {
   width: '100%',
   padding: '4px 10px',
-  height: '100px',
+  height: '135px',
   marginBottom: '20px',
   marginTop: '5px',
   border: '1px solid rgba(0,0,0,0.2)',
@@ -13,7 +13,7 @@ const inputStyle = {
 
 export default ({
   onChange = () => {},
-  value,
+  value = '',
   placeholder = '',
   name,
   label,
@@ -27,9 +27,8 @@ export default ({
         onChange={onChange}
         placeholder={placeholder}
         name={name}
-      >
-        {value}
-      </textarea>
+        defaultValue={value}
+      ></textarea>
     </div>
   )
 }
