@@ -16,6 +16,7 @@ const constants = {
     delete_product: baseUrl + '/product/delete/',
     update_product: baseUrl + '/product/update/',
     search_product_by_name_and_code: baseUrl + '/product/search/',
+    search_product_by_id: baseUrl + '/product/searchbyid/',
   },
 }
 

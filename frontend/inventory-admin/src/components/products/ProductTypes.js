@@ -89,9 +89,14 @@ function ProductTypes({ setMessage, setError, history }) {
             cell={(props) => (
               <td>
                 <Button
-                  onClick={async () =>
-                    await deleteType(props.dataItem.productTypeId)
-                  }
+                  onClick={async () => {
+                    if (
+                      window.confirm(
+                        'Are you sure you want to delete this item?'
+                      )
+                    )
+                      await deleteType(props.dataItem.productTypeId)
+                  }}
                   className="danger"
                   text="Delete"
                 />

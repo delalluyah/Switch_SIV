@@ -19,6 +19,8 @@ import ProductTypes from './components/products/ProductTypes'
 import AddProductType from './components/products/AddProductType'
 import UpdateProductType from './components/products/UpdateProductType'
 import UpdateProductCategory from './components/products/UpdateProductCategory'
+import ProductDetails from './components/products/ProductDetails'
+import UpdateProduct from './components/products/UpdateProduct'
 
 function App() {
   useEffect(() => {
@@ -47,6 +49,16 @@ function App() {
             path="/products"
             component={Dashboard}
             subComponent={ProductsDashboard}
+          />
+          <PrivateRoute
+            path="/product/details/:id"
+            component={Dashboard}
+            subComponent={ProductDetails}
+          />
+          <PrivateRoute
+            path="/product/update/:id"
+            component={Dashboard}
+            subComponent={UpdateProduct}
           />
           <PrivateRoute
             exact

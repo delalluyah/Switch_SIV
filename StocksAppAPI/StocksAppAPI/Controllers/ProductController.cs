@@ -155,6 +155,23 @@ namespace StocksAppAPI.Controllers
             return Ok(new { Success = false });
         }
 
+        [HttpGet("SearchById/{id}")]
+        public IActionResult SearchById(long id)
+        {
+            try
+            {
+                var entity = _db.Product
+                    .Include(p => p.Type).Include(p => p.Manufacturer).Include(p => p.Category)
+                    .FirstOrDefault(d => d.ProductId == id);
+                return (entity == null) ? Ok(new { Success = false }) : Ok(new { Success = true, Data = new ProductModel(entity) });
+            }
+            catch (Exception e)
+            {
+                _logger.logError(e);
+            }
+            return Ok(new { Success = false });
+        }
+
         [HttpPost("Search")]
         public IActionResult Search(SearchProductModel form)
       {

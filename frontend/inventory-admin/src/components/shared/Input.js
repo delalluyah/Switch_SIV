@@ -17,11 +17,17 @@ export default ({
   name,
   type = 'text',
   label,
+  ...rest
 }) => {
   return (
-    <div className="form-input">
-      <label>{label}</label>
-      <br />
+    <div className={type !== 'hidden' ? 'form-input' : ''}>
+      {type !== 'hidden' ? (
+        <>
+          {' '}
+          <label>{label}</label>
+          <br />
+        </>
+      ) : null}
       <input
         style={inputStyle}
         onChange={onChange}
@@ -29,6 +35,7 @@ export default ({
         value={value}
         placeholder={placeholder}
         name={name}
+        {...rest}
       />
     </div>
   )

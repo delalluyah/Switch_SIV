@@ -5,8 +5,10 @@ import utils from '../../utils'
 import constants from '../constants'
 import Card from '../shared/Card'
 import Input from '../shared/Input'
+import Button from '../shared/Button'
+import { withRouter } from 'react-router'
 
-export default function ProductsDashboard() {
+function ProductsDashboard({ history }) {
   const [pageState, setPageState] = useState({ skip: 0, take: 10 })
   const [products, setProducts] = useState([])
   const [searchForm, setSearchForm] = useState({ code: '', name: '' })
@@ -49,6 +51,7 @@ export default function ProductsDashboard() {
               label="Barcode"
               placeholder="Barcode"
               onChange={onChangeSearch}
+              autoFocus={true}
             />
             <Input
               name="name"
@@ -70,12 +73,30 @@ export default function ProductsDashboard() {
         pageable={true}
         onPageChange={pageChange}
       >
-        <Column field="barcode" title="Barcode" width="180px" />
-        <Column field="name" title="Name" width="250px" />
-        <Column field="categoryName" title="Category" />
-        <Column field="price" title="Price" />
+        <Column field="barcode" title="Barcode" width="180" />
+        <Column field="name" title="Name" width="300" />
+        <Column field="categoryName" title="Category" width="200" />
+        <Column field="price" title="Price" width="100" />
         <Column field="quantity" title="In stock" />
+        <Column
+          width="130px"
+          field="details"
+          title="Details"
+          cell={(props) => (
+            <td>
+              <Button
+                onClick={async () =>
+                  history.push(`/product/Details/${props.dataItem.id}`)
+                }
+                className="secondary"
+                text="Details"
+              />
+            </td>
+          )}
+        />
       </Grid>
     </div>
   )
 }
+
+export default withRouter(ProductsDashboard)
