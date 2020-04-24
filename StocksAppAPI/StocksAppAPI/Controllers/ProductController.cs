@@ -31,7 +31,7 @@ namespace StocksAppAPI.Controllers
             try
             {
                 long productId = 0;
-                var prodcodelower = data.Name.ToLower();
+                var prodcodelower = data.Barcode.ToLower();
                 if (_db.Product.Any(d => d.Barcode.ToLower() == prodcodelower && d.Active == true))
                 {
                     var entity = _db.Product.FirstOrDefault(d => d.Barcode.ToLower() == prodcodelower && d.Active == true);
@@ -56,7 +56,9 @@ namespace StocksAppAPI.Controllers
                         Price = data.Price,
                         Quantity = data.Quantity,
                         Barcode = data.Barcode,
+                        Active = true
                     };
+                    await _db.Product.AddAsync(entity);
                     await _db.SaveChangesAsync();
                     productId = entity.ProductId;
                 }
@@ -121,10 +123,10 @@ namespace StocksAppAPI.Controllers
         {
             try
             {
-                var data = _db.Product.Include(p=>p.Category)
-                    .Include(p=>p.Type).Include(p=>p.Manufacturer)
+                var data = _db.Product.Include(p => p.Category)
+                    .Include(p => p.Type).Include(p => p.Manufacturer)
                     .Where(d => d.Active == true)
-                    .Select(d=> new ProductModel(d))
+                    .Select(d => new ProductModel(d))
                     .ToList();
                 return Ok(new { Success = true, Data = data });
             }
@@ -133,6 +135,44 @@ namespace StocksAppAPI.Controllers
                 _logger.logError(e);
             }
             return Ok(new { Success = false, Data = new List<object>() });
+        }
+
+        [HttpPost("SearchByCode")]
+        public IActionResult SearchByCode([FromBody]string code)
+        {
+            try
+            {
+                code = code.Trim();
+                var entity = _db.Product
+                    .Include(p => p.Type).Include(p => p.Manufacturer).Include(p => p.Category)
+                    .FirstOrDefault(d => d.Barcode == code);
+                return (entity == null) ? Ok(new { Success = false }) : Ok(new { Success = true, Data = new ProductModel(entity) });
+            }
+            catch (Exception e)
+            {
+                _logger.logError(e);
+            }
+            return Ok(new { Success = false });
+        }
+
+        [HttpPost("Search")]
+        public IActionResult Search(SearchProductModel form)
+      {
+            try
+            {
+                form.code = form.code.ToLower().Trim() ?? "";
+                form.name = form.name.ToLower().Trim() ?? "";
+                var data = _db.Product
+                    .Include(p => p.Type).Include(p => p.Manufacturer).Include(p=>p.Category)
+                    .Where(d => d.Barcode.ToLower().Contains(form.code) && d.Name.ToLower().Contains(form.name))
+                    .Select(d => new ProductModel(d));
+                return Ok(new { Success = true, Data = data });
+            }
+            catch (Exception e)
+            {
+                _logger.logError(e);
+            }
+            return Ok(new { Success = false });
         }
     }
 }

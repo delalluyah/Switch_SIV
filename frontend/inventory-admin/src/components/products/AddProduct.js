@@ -15,15 +15,43 @@ function AddProduct({ setError, history, setMessage }) {
   const [formState, setformState] = useState({
     barcode: '',
     name: '',
-    productCategoryId: '',
-    productTypeId: '',
+    categoryId: '',
+    typeId: '',
     quantity: '',
     cost: '',
     price: '',
     description: '',
   })
-  const onFieldChange = (e) => {
+  const onFieldChange = async (e) => {
     setformState({ ...formState, [e.target.name]: e.target.value })
+    if (e.target.name === 'barcode') {
+      utils
+        .postdata(e.target.value, constants.backendApi.search_products_by_code)
+        .then((resp) => {
+          if (resp.success) {
+            //update form here
+            const {
+              name,
+              description,
+              categoryId,
+              typeId,
+              cost,
+              price,
+              barcode,
+            } = resp.data
+            setformState({
+              ...formState,
+              name,
+              description,
+              categoryId,
+              typeId,
+              cost,
+              price,
+              barcode,
+            })
+          }
+        })
+    }
   }
   const getCategories = () => {
     utils
@@ -34,7 +62,6 @@ function AddProduct({ setError, history, setMessage }) {
           : setCategoriesState([])
       )
   }
-
   const getTypes = () => {
     utils
       .getdata(constants.backendApi.get_types)
@@ -53,11 +80,11 @@ function AddProduct({ setError, history, setMessage }) {
       setError('Product Name field cannot be empty')
       return
     }
-    if (formState.productCategoryId === '') {
+    if (formState.categoryId === '') {
       setError('Please select a Product Category')
       return
     }
-    if (formState.productTypeId === '') {
+    if (formState.typeId === '') {
       setError('Please select a Product Type')
       return
     }
@@ -73,7 +100,24 @@ function AddProduct({ setError, history, setMessage }) {
       setError('Please add Unit Price')
       return
     }
-    setMessage('validation passed')
+    formState.categoryId = parseInt(formState.categoryId)
+    formState.typeId = parseInt(formState.typeId)
+    formState.quantity = parseInt(formState.quantity)
+    formState.cost = parseFloat(formState.cost)
+    formState.price = parseFloat(formState.price)
+    if (formState.quantity < 0) {
+      setError('Product Quantity must be at least 0')
+      return
+    }
+    utils
+      .postdata(formState, constants.backendApi.add_product)
+      .then((resp) => {
+        if (resp.success === true) {
+          setMessage('Stock updated successfully')
+          history.push('/products')
+        } else setError('Sorry, an error occured. Please try again')
+      })
+      .catch(() => setError('Sorry, an error occured. Please try again'))
   }
 
   useEffect(() => {
@@ -115,8 +159,8 @@ function AddProduct({ setError, history, setMessage }) {
                 onChange={onFieldChange}
                 valueFieldName="productCategoryId"
                 textFieldName="name"
-                name="productCategoryId"
-                value={formState.productCategoryId}
+                name="categoryId"
+                value={formState.categoryId}
               />
               <DropDownList
                 label="Product Type"
@@ -125,8 +169,8 @@ function AddProduct({ setError, history, setMessage }) {
                 onChange={onFieldChange}
                 valueFieldName="productTypeId"
                 textFieldName="name"
-                name="productTypeId"
-                value={formState.productTypeId}
+                name="typeId"
+                value={formState.typeId}
               />
               <Input
                 label="Quantity"
