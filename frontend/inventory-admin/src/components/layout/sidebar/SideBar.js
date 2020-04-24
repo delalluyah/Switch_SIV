@@ -26,11 +26,11 @@ export default function SideBar({ fullname = '', role = '' }) {
         </li>
         <li className="side-menu-item">
           <i className="fas fa-shopping-cart"></i>
-          <a href="/products">View Products</a>
+          <a href="/products">View Inventory</a>
         </li>
         <li className="side-menu-item">
           <i className="fas fa-cart-plus"></i>
-          <a href="/add-products">Add New Product</a>
+          <a href="/add-products">Add Stock</a>
         </li>
         <li className="side-menu-parent">
           <ul>

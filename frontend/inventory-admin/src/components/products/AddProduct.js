@@ -85,7 +85,7 @@ function AddProduct({ setError, history, setMessage }) {
   return (
     <div>
       <Card
-        header={'Add New Product'}
+        header={'Add New Stock Items'}
         subtitle="Note: If the product already exists, the record will be updated instead"
         //transparent={true}
       >
@@ -134,7 +134,7 @@ function AddProduct({ setError, history, setMessage }) {
                 onChange={onFieldChange}
                 name="quantity"
                 type="number"
-                placeholder="Quantity of Product"
+                placeholder="New Quantity to be Added"
               />
             </div>
             <div>
