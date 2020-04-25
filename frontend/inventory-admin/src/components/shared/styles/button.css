@@ -6,29 +6,15 @@ button {
   cursor: pointer;
   height: 35px;
 }
-.primary {
-  color: #fff;
-  background-color: #2ecc71;
-  border: 1px solid #2ecc71ee;
-}
 button.primary:hover {
   color: #f2f2f3;
   background-color: #2ecc71ee;
-}
-.danger {
-  color: #fff;
-  background-color: #ff4363;
-  border: 1px solid #ff4363ee;
 }
 button.danger:hover {
   color: #f2f2f3;
   background-color: #ff4363ee;
 }
-.secondary {
-  color: #fff;
-  background-color: #43b4ff;
-  border: 1px solid #43b4ffee;
-}
+
 button.secondary:hover {
   color: #f2f2f3;
   background-color: #43b4ffee;

@@ -16,6 +16,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using StocksAPI.Data;
 using StocksAPI.Data.Custom;
+using StocksApp.Utilities;
 using StocksApp.Utilities.Logging;
 using StocksApp.Utilities.Services;
 
@@ -38,6 +39,7 @@ namespace StocksAppAPI
             services.AddSingleton(jwtSettings);
             services.AddTransient<IIdentityService, IdentityService>();
             services.AddTransient<Logger>();
+            services.AddTransient<DbHelper>();
             var tokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,

@@ -17,6 +17,7 @@ const constants = {
     update_product: baseUrl + '/product/update/',
     search_product_by_name_and_code: baseUrl + '/product/search/',
     search_product_by_id: baseUrl + '/product/searchbyid/',
+    get_dashboard_summary: baseUrl + '/dashboard/getsummary/',
   },
 }
 

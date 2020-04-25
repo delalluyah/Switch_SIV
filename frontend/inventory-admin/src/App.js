@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import './App.css'
+import './components/shared/styles/grid.css'
 import './components/layout/sidebar/SideBar'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Login from './components/auth/login/Login'

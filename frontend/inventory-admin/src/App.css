@@ -130,3 +130,39 @@
 .display-table tr td:first-of-type {
   font-weight: 600;
 }
+
+.primary {
+  color: #fff;
+  background-color: #2ecc71;
+  border: 1px solid #2ecc71ee;
+}
+.danger {
+  color: #fff;
+  background-color: #ff4363;
+  border: 1px solid #ff4363ee;
+}
+.secondary {
+  color: #fff;
+  background-color: #43b4ff;
+  border: 1px solid #43b4ffee;
+}
+.orange {
+  color: #fff;
+  background-color: #ff9e43;
+  border: 1px solid #ff9e43ee;
+}
+.orange2 {
+  color: #fff;
+  background-color: #ff7c43;
+  border: 1px solid #ff7c43ee;
+}
+.pinkish {
+  color: #fff;
+  background-color: #ff4390;
+  border: 1px solid #ff4390ee;
+}
+.purple {
+  color: #fff;
+  background-color: #8e43ff;
+  border: 1px solid #8e43ffee;
+}
