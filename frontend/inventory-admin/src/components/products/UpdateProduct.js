@@ -76,7 +76,6 @@ function UpdateProduct({ setError, setMessage, history, match }) {
     formState.typeId = parseInt(formState.typeId)
     formState.cost = parseFloat(formState.cost)
     formState.price = parseFloat(formState.price)
-
     utils
       .postdata(formState, constants.backendApi.update_product)
       .then((resp) => {
@@ -98,7 +97,7 @@ function UpdateProduct({ setError, setMessage, history, match }) {
   return (
     <div>
       <Card
-        header={'Add New Stock Items'}
+        header={'Update Product Details'}
         subtitle="Note: If the product already exists, the record will be updated instead"
         //transparent={true}
       >

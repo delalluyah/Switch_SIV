@@ -70,6 +70,7 @@ namespace StocksAppAPI.Controllers
                     Quantity = data.Quantity,
                     ProductId = productId
                 };
+                _db.InventoryActivityLog.Add(activityLog);
                 await _db.SaveChangesAsync();
                 return Ok(new { Success = true });
             }
@@ -85,6 +86,7 @@ namespace StocksAppAPI.Controllers
         {
             try
             {
+                data.Description = string.IsNullOrWhiteSpace(data.Description) ? "" : data.Description;
                 var entity = _db.Product.FirstOrDefault(d => d.ProductId == data.Id && d.Active == true);
                 entity.Name = data.Name;
                 entity.CategoryId = data.CategoryId;

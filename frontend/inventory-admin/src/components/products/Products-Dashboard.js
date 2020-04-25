@@ -31,7 +31,7 @@ function ProductsDashboard({ history }) {
   }
 
   const onChangeSearch = async (e) => {
-    const newForm = { ...setSearchForm, [e.target.name]: e.target.value }
+    const newForm = { ...searchForm, [e.target.name]: e.target.value }
     setSearchForm(newForm)
     utils
       .postdata(newForm, constants.backendApi.search_product_by_name_and_code)
