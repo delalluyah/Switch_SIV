@@ -18,6 +18,12 @@ const constants = {
     search_product_by_name_and_code: baseUrl + '/product/search/',
     search_product_by_id: baseUrl + '/product/searchbyid/',
     get_dashboard_summary: baseUrl + '/dashboard/getsummary/',
+    register_user: baseUrl + '/auth/Register/',
+    get_users: baseUrl + '/user/index/',
+    get_user_by_id: baseUrl + '/user/GetById/',
+    update_user: baseUrl + '/user/update/',
+    delete_user: baseUrl + '/user/delete/',
+    get_roles: baseUrl + '/role/index/',
   },
 }
 

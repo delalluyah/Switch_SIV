@@ -4,8 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using StocksAPI.Data;
+using StocksAPI.Data.Custom;
 using StocksApp.Utilities.Logging;
+using StocksApp.Utilities.Security;
 
 namespace StocksAppAPI.Controllers.Account
 {
@@ -15,45 +18,28 @@ namespace StocksAppAPI.Controllers.Account
     {
         private AppDbContext _db;
         private Logger _logger;
+        private PasswordHasher _hasher;
 
         public UserController(AppDbContext db, Logger logger)
         {
             _db = db;
             _logger = logger;
-        }
-
-        [HttpPost("Add")]
-        public async Task<IActionResult> Create(User user)
-        {
-            try
-            {
-                var usernamelower = user.Username.ToLower();
-
-                if (_db.User.Any(d => d.Username.ToLower() == usernamelower))
-                    return BadRequest(new { Success = false, Error = "A User with this username already exists" });
-                _db.User.Add(user);
-                await _db.SaveChangesAsync();
-                return Ok(new { Success = true });
-            }
-            catch (Exception e)
-            {
-                _logger.logError(e);
-            }
-            return BadRequest(new { Success = false });
+            _hasher = new PasswordHasher();
         }
 
         [HttpPost("Update")]
-        public async Task<IActionResult> Edit(User user)
+        public async Task<IActionResult> Edit(UserModel user)
         {
             try
             {
                 var usernamelower = user.Username.ToLower();
-                if (_db.User.Any(d => d.Username.ToLower() == usernamelower && d.UserId != user.UserId))
+                if (_db.User.Any(d => d.Username.ToLower() == usernamelower && d.UserId != user.Id))
                     return BadRequest(new { Success = false, Error = "A record with this name already exists" });
 
-                var entity = _db.User.FirstOrDefault(d => d.UserId == user.UserId);
+                var entity = _db.User.FirstOrDefault(d => d.UserId == user.Id);
                 entity.Fullname = user.Fullname;
-                entity.Password = user.Password;
+                if(!string.IsNullOrWhiteSpace(user.Password))
+                    entity.Password = _hasher.GenerateIdentityV3Hash(user.Password);
                 entity.Username = user.Username;
                 entity.RoleId = user.RoleId;
                 await _db.SaveChangesAsync();
@@ -88,7 +74,25 @@ namespace StocksAppAPI.Controllers.Account
         {
             try
             {
-                var data = _db.User.ToList();
+                var data = _db.User.Include(d=>d.Role).ToList().Select(d=> new UserModel(d));
+                return Ok(new { Success = true, Data = data });
+            }
+            catch (Exception e)
+            {
+                _logger.logError(e);
+            }
+            return BadRequest(new { Success = false, Data = new List<object>() });
+        }
+        
+        [HttpGet("GetById/{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            try
+            {
+                var entity = _db.User.Include(d=>d.Role).FirstOrDefault(d=>d.UserId == id);
+                var data = new UserModel(entity);
+                data.Password = "";
+
                 return Ok(new { Success = true, Data = data });
             }
             catch (Exception e)

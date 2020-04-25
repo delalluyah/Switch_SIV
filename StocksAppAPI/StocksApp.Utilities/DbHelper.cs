@@ -33,7 +33,7 @@ namespace StocksApp.Utilities
                     conn.Open(); var reader = await cmd.ExecuteReaderAsync();
                     while (reader.Read())
                     {
-                        new DashboardSummary
+                        results = new DashboardSummary
                         {
                             TotalProducts = reader.GetFieldValue<long>(0),
                             TotalCost = reader.GetFieldValue<double>(1),

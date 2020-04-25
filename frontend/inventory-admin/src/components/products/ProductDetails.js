@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import utils from '../../utils'
 import constants from '../constants'
 import Button from '../shared/Button'
-import { Link } from 'react-router-dom'
 import Card from '../shared/Card'
 
 function ProductDetails({ history, match }) {

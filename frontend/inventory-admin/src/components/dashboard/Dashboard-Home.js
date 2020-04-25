@@ -39,16 +39,20 @@ export default function DashboardHome() {
       <Summary title="Summary">
         <MiniCard
           title="Total Products"
-          value={state.totalProducts}
+          value={`${state.totalProducts}`}
           theme="secondary"
           icon={product}
         />
-        <MiniCard icon={box} title="Total Cost" value={state.totalCost} />
+        <MiniCard
+          icon={box}
+          title="Total Cost"
+          value={`GHC ${state.totalCost}`}
+        />
         <MiniCard
           theme="danger"
           icon={price}
           title="Total Price"
-          value={state.totalPrice}
+          value={`GHC ${state.totalPrice}`}
         />
       </Summary>
       <Summary
@@ -74,13 +78,13 @@ export default function DashboardHome() {
           icon={box}
           theme="secondary"
           title="Total Quantity Added"
-          value={state.weekly.quantityAdded}
+          value={`${state.weekly.quantityAdded} Units`}
         />
         <MiniCard
           theme="orange2"
           icon={price}
           title="Total Amount"
-          value={state.weekly.amount}
+          value={`GHC ${state.weekly.amount}`}
         />
       </Summary>
       <Summary
@@ -100,18 +104,18 @@ export default function DashboardHome() {
           theme="secondary"
           icon={product}
           title="Total Products Added"
-          value={state.monthly.productsAdded}
+          value={`${state.monthly.productsAdded}`}
         />
         <MiniCard
           icon={box}
           title="Total Quantity Added"
-          value={state.monthly.quantityAdded}
+          value={`${state.monthly.quantityAdded} Units`}
         />
         <MiniCard
           theme="danger"
           icon={price}
           title="Total Amount"
-          value={state.monthly.amount}
+          value={`GHC ${state.monthly.amount}`}
         />
       </Summary>
       <Summary
@@ -137,13 +141,13 @@ export default function DashboardHome() {
           icon={box}
           theme="secondary"
           title="Total Quantity Added"
-          value={state.annual.quantityAdded}
+          value={`${state.annual.quantityAdded} Units`}
         />
         <MiniCard
           theme="orange2"
           icon={price}
           title="Total Amount"
-          value={state.annual.amount}
+          value={`GHC ${state.annual.amount}`}
         />
       </Summary>
     </div>

@@ -22,6 +22,9 @@ import UpdateProductType from './components/products/UpdateProductType'
 import UpdateProductCategory from './components/products/UpdateProductCategory'
 import ProductDetails from './components/products/ProductDetails'
 import UpdateProduct from './components/products/UpdateProduct'
+import Users from './components/users/Users'
+import UpdateUser from './components/users/UpdateUser'
+import AddUser from './components/users/AddUser'
 
 function App() {
   useEffect(() => {
@@ -96,6 +99,24 @@ function App() {
             path="/types"
             component={Dashboard}
             subComponent={ProductTypes}
+          />
+          <PrivateRoute
+            exact
+            path="/users"
+            component={Dashboard}
+            subComponent={Users}
+          />
+          <PrivateRoute
+            exact
+            path="/update-user/:id"
+            component={Dashboard}
+            subComponent={UpdateUser}
+          />
+          <PrivateRoute
+            exact
+            path="/add-user/"
+            component={Dashboard}
+            subComponent={AddUser}
           />
           <PrivateRoute
             path="/"
