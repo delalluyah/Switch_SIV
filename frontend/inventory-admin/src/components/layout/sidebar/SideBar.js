@@ -32,6 +32,10 @@ export default function SideBar({ fullname = '', role = '' }) {
           <i className="fas fa-cart-plus"></i>
           <a href="/add-products">Add Stock</a>
         </li>
+        <li className="side-menu-item">
+          <i className="fas fa-cart-plus"></i>
+          <a href="/record-sales">Record Sales</a>
+        </li>
         <li className="side-menu-parent">
           <ul>
             <p>
@@ -45,7 +49,7 @@ export default function SideBar({ fullname = '', role = '' }) {
             </li>
             <li className="side-menu-item side-menu-child">
               <i className="fas fa-user-plus"></i>
-              <a href="/add-users">Add New User</a>
+              <a href="/add-user">Add New User</a>
             </li>
           </ul>
         </li>

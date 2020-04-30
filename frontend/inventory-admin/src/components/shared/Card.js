@@ -21,7 +21,7 @@ const hrStyle = { color: '#000', opacity: '0.2', margin: '10px 0' }
 export default ({ children, header, subtitle, transparent = false }) => {
   let cardStyle = {
     width: '100%',
-    height: '100%',
+    //height: '100%',
     backgroundColor: transparent ? 'rgba(255,255,255,0.2)' : '#fff',
     color: '#000',
     border: 'none',

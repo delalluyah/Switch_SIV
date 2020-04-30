@@ -25,6 +25,7 @@ import UpdateProduct from './components/products/UpdateProduct'
 import Users from './components/users/Users'
 import UpdateUser from './components/users/UpdateUser'
 import AddUser from './components/users/AddUser'
+import SalesDashboard from './components/sales/SalesDashboard'
 
 function App() {
   useEffect(() => {
@@ -105,6 +106,12 @@ function App() {
             path="/users"
             component={Dashboard}
             subComponent={Users}
+          />
+          <PrivateRoute
+            exact
+            path="/record-sales"
+            component={Dashboard}
+            subComponent={SalesDashboard}
           />
           <PrivateRoute
             exact
