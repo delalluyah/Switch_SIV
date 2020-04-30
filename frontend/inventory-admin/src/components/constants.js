@@ -24,6 +24,7 @@ const constants = {
     update_user: baseUrl + '/user/update/',
     delete_user: baseUrl + '/user/delete/',
     get_roles: baseUrl + '/role/index/',
+    record_sales: baseUrl + '/Sales/RecordSales/',
   },
 }
 
