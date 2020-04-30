@@ -61,7 +61,7 @@ namespace StocksAppAPI.Controllers.Account
             {
                 _logger.logError(e);
             }
-            return Ok(new { success = false });
+            return Ok(new { success = false , errors = new List<string> { $"Sorry, an error occured, please try again" } });
         }
     }
 }

@@ -11,7 +11,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import SalesRow from './SalesRow'
 
-function SalesRecords({ setMessage, setError }) {
+function SalesRecords({ setMessage, setError, history }) {
   const [searchForm, setSearchForm] = useState({ code: '', name: '' })
   const [productsState, setProductsState] = useState([])
   const [selectedProducts, setSelectedProducts] = useState([])
@@ -28,13 +28,11 @@ function SalesRecords({ setMessage, setError }) {
       setSearchForm({ code: '' })
     }
   }
-
   useEffect(() => {
     utils.getdata(constants.backendApi.get_products).then((res) => {
       if (res.success) setProductsState(res.data)
     })
   }, [])
-
   function onSelectProduct(e) {
     let selected = productsState.filter(
       (el) => el.id == parseInt(e.target.value)
@@ -52,6 +50,26 @@ function SalesRecords({ setMessage, setError }) {
         return product
       })
     )
+  }
+  function onSubmitSales() {
+    if (window.confirm('Are you sure you want to save?')) {
+      const toSend = selectedProducts.map((prod) => {
+        prod.quantity = parseInt(prod.quantity)
+        return prod
+      })
+      utils
+        .postdata({ products: toSend }, constants.backendApi.record_sales)
+        .then((res) => {
+          if (res.success) {
+            setMessage('Sales Record Saved Successfully')
+            document.getElementById('btn_box').style.display = 'none'
+          } else {
+            res.errors.forEach((d) => {
+              setError(d)
+            })
+          }
+        })
+    }
   }
   function onCancelProduct(index) {
     setSelectedProducts(
@@ -120,9 +138,14 @@ function SalesRecords({ setMessage, setError }) {
                     .toFixed(2)}
                 </h3>
               </div>
-              <div>
+              <div id="btn_box">
                 <br />
-                <Button image={save} text="Save" className="secondary" />
+                <Button
+                  image={save}
+                  text="Save"
+                  onClick={onSubmitSales}
+                  className="secondary"
+                />
               </div>
             </div>
           </>
