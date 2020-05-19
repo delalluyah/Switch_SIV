@@ -35,25 +35,25 @@ namespace StocksApp.Utilities
                     {
                         results = new DashboardSummary
                         {
-                            TotalProducts = reader.GetFieldValue<long>(0),
-                            TotalCost = reader.GetFieldValue<double>(1),
-                            TotalPrice = reader.GetFieldValue<double>(2),
+                            TotalProducts =reader.GetFieldValue<object>(0)== DBNull.Value? 0: reader.GetFieldValue<long>(0),
+                            TotalCost = reader.GetFieldValue<object>(1) == DBNull.Value ? 0 : reader.GetFieldValue<double>(1),
+                            TotalPrice = reader.GetFieldValue<object>(2) == DBNull.Value ? 0 : reader.GetFieldValue<double>(2),
                             Weekly= new TimeSummary {
-                                ProductsAdded = reader.GetFieldValue<long>(3), 
-                                Amount = reader.GetFieldValue<double>(4), 
-                                QuantityAdded = reader.GetFieldValue<long>(5), 
+                                ProductsAdded = reader.GetFieldValue<object>(3) == DBNull.Value ? 0 : reader.GetFieldValue<long>(3), 
+                                Amount = reader.GetFieldValue<object>(4) == DBNull.Value ? 0 : reader.GetFieldValue<double>(4), 
+                                QuantityAdded = reader.GetFieldValue<object>(5) == DBNull.Value ? 0 : reader.GetFieldValue<long>(5), 
                             },
                             Monthly= new TimeSummary
                             {
-                                ProductsAdded = reader.GetFieldValue<long>(6),
-                                Amount = reader.GetFieldValue<double>(7),
-                                QuantityAdded = reader.GetFieldValue<long>(8),
+                                ProductsAdded = reader.GetFieldValue<object>(6) == DBNull.Value ? 0 : reader.GetFieldValue<long>(6),
+                                Amount = reader.GetFieldValue<object>(7) == DBNull.Value ? 0 : reader.GetFieldValue<double>(7),
+                                QuantityAdded = reader.GetFieldValue<object>(8) == DBNull.Value ? 0 : reader.GetFieldValue<long>(8),
                             },
                             Annual= new TimeSummary
                             {
-                                ProductsAdded = reader.GetFieldValue<long>(9),
-                                Amount = reader.GetFieldValue<double>(10),
-                                QuantityAdded = reader.GetFieldValue<long>(11),
+                                ProductsAdded = reader.GetFieldValue<object>(9) == DBNull.Value ? 0 : reader.GetFieldValue<long>(9),
+                                Amount = reader.GetFieldValue<object>(10) == DBNull.Value ? 0 : reader.GetFieldValue<double>(10),
+                                QuantityAdded = reader.GetFieldValue<object>(11) == DBNull.Value ? 0 : reader.GetFieldValue<long>(11),
                             }
                         };
                     }

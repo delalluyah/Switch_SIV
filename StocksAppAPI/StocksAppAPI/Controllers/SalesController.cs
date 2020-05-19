@@ -8,7 +8,7 @@ using StocksAPI.Data;
 using StocksAPI.Data.Custom;
 using StocksApp.Utilities.Logging;
 
-namespace StocksAppAPI.Controllers.Account
+namespace StocksAppAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -45,7 +45,7 @@ namespace StocksAppAPI.Controllers.Account
                             ProductId = item.Id,
                             InventoryActionId = (int)InventoryActionType.Purchase,
                             CreatedAt = DateTime.Now,
-                            TotalAmount = item.Quantity * item.Price
+                           // TotalAmount = item.Quantity * item.Price
                         };
                         salesHistory.Add(activityLog);
                     };

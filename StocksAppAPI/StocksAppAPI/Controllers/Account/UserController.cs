@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -38,7 +38,7 @@ namespace StocksAppAPI.Controllers.Account
 
                 var entity = _db.User.FirstOrDefault(d => d.UserId == user.Id);
                 entity.Fullname = user.Fullname;
-                if(!string.IsNullOrWhiteSpace(user.Password))
+                if (!string.IsNullOrWhiteSpace(user.Password))
                     entity.Password = _hasher.GenerateIdentityV3Hash(user.Password);
                 entity.Username = user.Username;
                 entity.RoleId = user.RoleId;
@@ -74,7 +74,7 @@ namespace StocksAppAPI.Controllers.Account
         {
             try
             {
-                var data = _db.User.Include(d=>d.Role).ToList().Select(d=> new UserModel(d));
+                var data = _db.User.Include(d => d.Role).ToList().Select(d => new UserModel(d));
                 return Ok(new { Success = true, Data = data });
             }
             catch (Exception e)
@@ -83,13 +83,13 @@ namespace StocksAppAPI.Controllers.Account
             }
             return BadRequest(new { Success = false, Data = new List<object>() });
         }
-        
+
         [HttpGet("GetById/{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             try
             {
-                var entity = _db.User.Include(d=>d.Role).FirstOrDefault(d=>d.UserId == id);
+                var entity = _db.User.Include(d => d.Role).FirstOrDefault(d => d.UserId == id);
                 var data = new UserModel(entity);
                 data.Password = "";
 

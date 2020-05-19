@@ -32,6 +32,8 @@ namespace StocksAppAPI.Controllers
             {
                 long productId = 0;
                 var prodcodelower = data.Barcode.ToLower();
+                var qty = data.Quantity * data.BulkUnits;
+                var unitCost = data.Cost / qty;
                 if (_db.Product.Any(d => d.Barcode.ToLower() == prodcodelower && d.Active == true))
                 {
                     var entity = _db.Product.FirstOrDefault(d => d.Barcode.ToLower() == prodcodelower && d.Active == true);
@@ -39,10 +41,12 @@ namespace StocksAppAPI.Controllers
                     entity.CategoryId = data.CategoryId;
                     entity.TypeId = data.TypeId;
                     entity.Description = data.Description;
-                    entity.Cost = data.Cost;
-                    entity.Price = data.Price;
-                    entity.Quantity += data.Quantity;
+                    entity.Cost = unitCost;
+                    entity.UnitPrice = data.UnitPrice;
+                    entity.Quantity += qty;
                     productId = entity.ProductId;
+                    entity.BulkUnits = data.BulkUnits;
+                    entity.BulkPrice = data.BulkPrice;
                 }
                 else
                 {
@@ -53,10 +57,12 @@ namespace StocksAppAPI.Controllers
                         TypeId = data.TypeId,
                         Description = data.Description,
                         Cost = data.Cost,
-                        Price = data.Price,
-                        Quantity = data.Quantity,
+                        UnitPrice = data.UnitPrice,
+                        Quantity = qty,
                         Barcode = data.Barcode,
-                        Active = true
+                        Active = true,
+                        BulkUnits = data.BulkUnits,
+                        BulkPrice= data.BulkPrice
                     };
                     await _db.Product.AddAsync(entity);
                     await _db.SaveChangesAsync();
@@ -66,8 +72,8 @@ namespace StocksAppAPI.Controllers
                 {
                     InventoryActionId = 1,
                     CreatedAt = DateTime.Now,
-                    TotalAmount = data.Quantity * data.Cost,
-                    Quantity = data.Quantity,
+                    TotalAmount = data.Cost,
+                    Quantity = qty,
                     ProductId = productId
                 };
                 _db.InventoryActivityLog.Add(activityLog);
@@ -92,7 +98,9 @@ namespace StocksAppAPI.Controllers
                 entity.CategoryId = data.CategoryId;
                 entity.TypeId = data.TypeId;
                 entity.Description = data.Description;
-                entity.Price = data.Price;
+                entity.UnitPrice = data.UnitPrice;
+                entity.BulkPrice = data.BulkPrice;
+                entity.BulkUnits = data.BulkUnits;
                 await _db.SaveChangesAsync();
                 return Ok(new { Success = true });
             }

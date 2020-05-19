@@ -16,7 +16,8 @@ namespace StocksAPI.Data.Custom
             Name = product.Name;
             Description = product.Description;
             Cost = product.Cost;
-            Price = product.Price;
+            UnitPrice = product.UnitPrice;
+            BulkPrice = product.BulkPrice;
             CategoryId = (int)product.CategoryId;
             TypeId = (int)product.TypeId;
             TypeName = product.Type?.Name ?? "";
@@ -31,7 +32,9 @@ namespace StocksAPI.Data.Custom
         public string Name { get; set; }
         public string Description { get; set; }
         public double Cost { get; set; }
-        public double Price { get; set; }
+        public double UnitPrice { get; set; }
+        public double BulkPrice { get; set; }
+        public int  BulkUnits { get; set; }
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
         public int TypeId { get; set; }

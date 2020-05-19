@@ -59,39 +59,44 @@ create table "User" ("UserId" serial primary key not null,
 	
 
 
-CREATE OR REPLACE FUNCTION public."GetDashboardSummary"()
- RETURNS TABLE("TotalProducts" bigint, "TotalCost" double precision, "TotalPrice" double precision,
- 				"TotalProductsWeekly" bigint, "TotalCostWeekly" double precision, "TotalQuantityWeekly" bigint,
- 				"TotalProductsMonthly" bigint, "TotalCostMonthly" double precision, "TotalQuantityMonthly" bigint,
- 				 "TotalProductsAnnual" bigint, "TotalCostAnnual" double precision, "TotalQuantityAnnual" bigint)
- LANGUAGE plpgsql
-AS $function$
+CREATE OR REPLACE FUNCTION public."GetDashboardSummary"(
+	)
+    RETURNS TABLE("TotalProducts" bigint, "TotalCost" double precision, "TotalPrice" double precision, "TotalProductsWeekly" bigint, "TotalCostWeekly" double precision, "TotalQuantityWeekly" bigint, "TotalProductsMonthly" bigint, "TotalCostMonthly" double precision, "TotalQuantityMonthly" bigint, "TotalProductsAnnual" bigint, "TotalCostAnnual" double precision, "TotalQuantityAnnual" bigint) 
+    LANGUAGE 'plpgsql'
+
+    COST 100
+    VOLATILE 
+    ROWS 1000
+    
+AS $BODY$
 BEGIN
 	return query select (select count(*) from "Product" p  where "Active" = 'Y' and "Quantity" > 0),
 						(select sum("Cost" * "Quantity") from "Product"),
 						(select sum("Price" * "Quantity") from "Product"),
 						
-						(select distinct on (ial."ProductId") count(*) from "InventoryActivityLog" ial 
-						where ial."InventoryActionId" = 1 and "CreatedAt" > (now() - interval '1 week')  group by ial ."ProductId" ),
+						(select count (*) from (select distinct on (ial."ProductId") ial."ProductId" from "InventoryActivityLog" ial 
+						where ial."InventoryActionId" = 1 and "CreatedAt" > (now() - interval '1 week') group by ial ."ProductId" ) as weekly_all),
 						(select sum("TotalAmount") from "InventoryActivityLog" ial 
-						where ial."InventoryActionId" = 1 and "CreatedAt" > (now() - interval '1 week')  group by ial ."ProductId" ),
+						where ial."InventoryActionId" = 1 and "CreatedAt" > (now() - interval '1 week') ),
 						(select sum("Quantity" ) from "InventoryActivityLog" ial 
-						where ial."InventoryActionId" = 1 and "CreatedAt" > (now() - interval '1 week')  group by ial ."ProductId" ),
+						where ial."InventoryActionId" = 1 and "CreatedAt" > (now() - interval '1 week')),
 						
-						(select distinct on (ial."ProductId") count(*) from "InventoryActivityLog" ial 
-						where ial."InventoryActionId" = 1 and "CreatedAt" > (now() - interval '1 month')  group by ial ."ProductId" ),
+						(select count (*) from (select distinct on (ial."ProductId") ial."ProductId" from "InventoryActivityLog" ial 
+						where ial."InventoryActionId" = 1 and "CreatedAt" > (now() - interval '1 month')  group by ial ."ProductId" ) as monthly_total),
 						(select sum("TotalAmount") from "InventoryActivityLog" ial 
-						where ial."InventoryActionId" = 1 and "CreatedAt" > (now() - interval '1 month')  group by ial ."ProductId" ),
+						where ial."InventoryActionId" = 1 and "CreatedAt" > (now() - interval '1 month') ),
 						(select sum("Quantity" ) from "InventoryActivityLog" ial 
-						where ial."InventoryActionId" = 1 and "CreatedAt" > (now() - interval '1 month')  group by ial ."ProductId" ),
+						where ial."InventoryActionId" = 1 and "CreatedAt" > (now() - interval '1 month')  ),
+
 						
-						(select distinct on (ial."ProductId") count(*) from "InventoryActivityLog" ial 
-						where ial."InventoryActionId" = 1 and "CreatedAt" > (now() - interval '1 year')  group by ial ."ProductId" ),
+						(select count (*) from (select distinct on (ial."ProductId") ial."ProductId" from "InventoryActivityLog" ial 
+						where ial."InventoryActionId" = 1 and "CreatedAt" > (now() - interval '1 year')  group by ial ."ProductId" ) as annual_all),
 						(select sum("TotalAmount") from "InventoryActivityLog" ial 
-						where ial."InventoryActionId" = 1 and "CreatedAt" > (now() - interval '1 year')  group by ial ."ProductId" ),
+						where ial."InventoryActionId" = 1 and "CreatedAt" > (now() - interval '1 year') ),
 						(select sum("Quantity" ) from "InventoryActivityLog" ial 
-						where ial."InventoryActionId" = 1 and "CreatedAt" > (now() - interval '1 year')  group by ial ."ProductId" );
+						where ial."InventoryActionId" = 1 and "CreatedAt" > (now() - interval '1 year') );
+
 END
-$function$
-;
+$BODY$;
+
 

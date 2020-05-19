@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -47,7 +47,7 @@ namespace StocksAppAPI.Controllers
             try
             {
                 var authResponse = await _identityService.RegisterAsync(request.FullName, request.Username, request.Password, request.RoleId);
-                    return Ok(authResponse);
+                return Ok(authResponse);
             }
             catch (Exception e)
             {
@@ -55,7 +55,7 @@ namespace StocksAppAPI.Controllers
                 return BadRequest(new RegistrationResponse
                 {
                     Success = false,
-                    Errors = new List<string>() { "Sorry an error occured, please try again"}
+                    Errors = new List<string>() { "Sorry an error occured, please try again" }
                 });
             }
         }
@@ -74,7 +74,7 @@ namespace StocksAppAPI.Controllers
                 return Ok(new LoginResponse
                 {
                     Success = false,
-                    Errors = new List<string>{"Sorry an error occured, please try again"}
+                    Errors = new List<string> { "Sorry an error occured, please try again" }
                 });
             }
         }
