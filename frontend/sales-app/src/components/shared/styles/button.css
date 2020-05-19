@@ -1,0 +1,21 @@
+button {
+  width: 100%;
+  padding: 5px 10px;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  height: 35px;
+}
+button.primary:hover {
+  color: #f2f2f3;
+  background-color: #2ecc71ee;
+}
+button.danger:hover {
+  color: #f2f2f3;
+  background-color: #ff4363ee;
+}
+
+button.secondary:hover {
+  color: #f2f2f3;
+  background-color: #43b4ffee;
+}

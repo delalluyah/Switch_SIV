@@ -1,0 +1,58 @@
+.col,
+.four-col,
+.three-col,
+.two-col {
+  display: grid;
+  grid-template-rows: auto;
+  row-gap: 30px;
+  column-gap: 10px;
+}
+
+/* LG screens */
+@media only screen and (min-width: 1200px) {
+  .four-col {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .three-col {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .two-col {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+/* MD screens */
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  .four-col {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .three-col {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .two-col {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+/* SM screens */
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .four-col {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .three-col {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .two-col {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+/* XS screens */
+@media only screen and (max-width: 768px) {
+  .four-col {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .three-col {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .two-col {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}

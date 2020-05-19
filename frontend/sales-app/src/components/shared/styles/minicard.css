@@ -1,0 +1,43 @@
+.mini-card {
+  position: relative;
+  /* max-width: 300px; */
+  height: 150px;
+  opacity: 0.97;
+}
+.mini-card-separator {
+  color: #000;
+  opacity: 0.2;
+  margin: 10px 0;
+}
+.mini-card-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: right;
+  padding: 5px;
+  font-weight: 800;
+  font-size: 1.2em;
+}
+
+.mini-card-icon {
+  width: 80px;
+  height: auto;
+  margin: auto;
+  display: block;
+  opacity: 0.5;
+  position: absolute;
+  top: 45px;
+  left: 0;
+  right: 0;
+  z-index: 555;
+}
+
+.mini-card-top {
+  padding: 10px 20px;
+}
+.mini-card-top p {
+  font-size: 27px;
+  font-weight: 500;
+  z-index: 99999;
+}

@@ -1,0 +1,15 @@
+.header-brand {
+  padding-top: 20px;
+  text-align: center;
+  background-color: #43b4ff;
+  height: 100%;
+  width: 100%;
+  color: #fff;
+  font-size: 16px;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  letter-spacing: 0.05em;
+  font-weight: 800;
+  text-transform: capitalize;
+  box-shadow: 0 1px #14532f8e;
+}
