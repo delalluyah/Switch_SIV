@@ -27,6 +27,10 @@ const constants = {
     get_roles: baseUrl + "/role/index/",
     record_sales: baseUrl + "/Sales/RecordSales/",
   },
+  salesTypes: [
+    { name: "Bulk Purchase", id: 1 },
+    { name: "Retail Purchase", id: 2 },
+  ],
 };
 
 export default constants;

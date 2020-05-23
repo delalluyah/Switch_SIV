@@ -18,6 +18,7 @@ namespace StocksAPI.Data.Custom
             Cost = product.Cost;
             UnitPrice = product.UnitPrice;
             BulkPrice = product.BulkPrice;
+            BulkUnits = product.BulkUnits;
             CategoryId = (int)product.CategoryId;
             TypeId = (int)product.TypeId;
             TypeName = product.Type?.Name ?? "";
@@ -43,5 +44,7 @@ namespace StocksAPI.Data.Custom
         public int Quantity { get; set; }
         public bool Active { get; set; }
         public string Barcode { get; set; }
+
+        public int BulkQuantity { get { return Quantity / BulkUnits; }}
     }
 }
