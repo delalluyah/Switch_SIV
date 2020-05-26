@@ -1,25 +1,25 @@
-import React from 'react'
+import React from "react";
 
-const inputStyle = {
-  width: '100%',
-  padding: '4px 10px',
-  height: '35px',
-  marginBottom: '20px',
-  marginTop: '5px',
-  border: '1px solid rgba(0,0,0,0.2)',
-  borderRadius: '3px',
-}
+let inputStyle = {
+  width: "100%",
+  padding: "4px 10px",
+  height: "35px",
+  marginBottom: "20px",
+  marginTop: "5px",
+  border: "1px solid rgba(0,0,0,0.2)",
+  borderRadius: "3px",
+};
 
 export default ({
   onChange = () => {},
-  value = '',
-  placeholder = '',
+  value = "",
+  placeholder = "",
   name,
   label,
   data = [{}],
-  valueFieldName = 'id',
-  textFieldName = 'name',
-  optionLabel = '-- SELECT --',
+  valueFieldName = "id",
+  textFieldName = "name",
+  optionLabel = "-- SELECT --",
 }) => {
   return (
     <div className="form-input">
@@ -32,7 +32,9 @@ export default ({
         name={name}
         value={value}
       >
-        <option value="">{optionLabel}</option>
+        <option value="" disabled="disabled">
+          {optionLabel}
+        </option>
         {data.map((el, index) => {
           /* if (el[valueFieldName] === value)
             return (
@@ -45,9 +47,9 @@ export default ({
             <option key={index} value={el[valueFieldName]}>
               {el[textFieldName]}
             </option>
-          )
+          );
         })}
       </select>
     </div>
-  )
-}
+  );
+};

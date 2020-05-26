@@ -175,3 +175,8 @@
 hr.deepline {
   color: #000;
 }
+
+[readonly] {
+  cursor: not-allowed;
+  background-color: rgba(0, 0, 0, 0.06) !important;
+}

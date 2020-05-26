@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import Card from "../shared/Card";
 import Input from "../shared/Input";
 import utils from "../../utils";
@@ -78,7 +78,12 @@ function SalesRecords({ setMessage, setError, history }) {
   }
   function calculateGrandtotal() {
     selectedProducts
-      .reduce((prev, curr) => curr.quantity * curr.price + prev, 0)
+      .reduce((prev, curr) => {
+        if (curr.saleTypeId === "1") {
+          return curr.quantity * curr.bulkPrice;
+        }
+        return curr.quantity * curr.unitPrice;
+      }, 0)
       .toFixed(2);
   }
   return (
@@ -110,9 +115,9 @@ function SalesRecords({ setMessage, setError, history }) {
           <Button image={plus} text="Add New Record" />{' '}
         </div> */}
         {selectedProducts.map((p, index) => {
-          p.saleTypeId = 1;
+          p.saleTypeId = p.saleTypeId ? p.saleTypeId : 2;
           return (
-            <>
+            <Fragment key={index}>
               <SalesRow
                 key={index}
                 product={p}
@@ -120,7 +125,7 @@ function SalesRecords({ setMessage, setError, history }) {
                 onCancel={() => onCancelProduct(index)}
               />
               <hr className="hr" />
-            </>
+            </Fragment>
           );
         })}
         {selectedProducts.length > 0 ? (
@@ -135,10 +140,12 @@ function SalesRecords({ setMessage, setError, history }) {
                 <h3>
                   GHC{" "}
                   {selectedProducts
-                    .reduce(
-                      (prev, curr) => curr.quantity * curr.unitPrice + prev,
-                      0
-                    )
+                    .reduce((prev, curr) => {
+                      if (curr.saleTypeId === "1") {
+                        return curr.quantity * curr.bulkPrice;
+                      }
+                      return curr.quantity * curr.unitPrice;
+                    }, 0)
                     .toFixed(2)}
                 </h3>
               </div>

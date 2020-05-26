@@ -1,29 +1,30 @@
-import React from 'react'
+import React from "react";
 
-const inputStyle = {
-  width: '100%',
-  padding: '4px 10px',
-  height: '35px',
-  marginBottom: '20px',
-  marginTop: '5px',
-  border: '1px solid rgba(0,0,0,0.2)',
-  borderRadius: '3px',
-}
+let inputStyle = {
+  width: "100%",
+  padding: "4px 10px",
+  height: "35px",
+  marginBottom: "20px",
+  marginTop: "5px",
+  border: "1px solid rgba(0,0,0,0.2)",
+  borderRadius: "3px",
+  backgroundColor: "#fff",
+};
 
 export default ({
   onChange = () => {},
   value,
-  placeholder = '',
+  placeholder = "",
   name,
-  type = 'text',
+  type = "text",
   label,
   ...rest
 }) => {
   return (
-    <div className={type !== 'hidden' ? 'form-input' : ''}>
-      {type !== 'hidden' ? (
+    <div className={type !== "hidden" ? "form-input" : ""}>
+      {type !== "hidden" ? (
         <>
-          {' '}
+          {" "}
           <label>{label}</label>
           <br />
         </>
@@ -38,5 +39,5 @@ export default ({
         {...rest}
       />
     </div>
-  )
-}
+  );
+};

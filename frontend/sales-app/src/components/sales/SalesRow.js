@@ -24,18 +24,24 @@ export default function SalesRow({
         <Input
           name="price"
           label="Price"
-          value={product.price}
+          value={
+            product.saleTypeId === "1" ? product.bulkPrice : product.unitPrice
+          }
           placeholder="Price"
           type="number"
           onChange={onFormChange}
+          readOnly
+          min="0"
         />
         <Input
           name="bulkUnits"
-          label="Units per Bulk Unit"
+          label="Bulk Quantity Units"
           value={product.bulkUnits}
-          placeholder="Units per Bulk Unit"
+          placeholder="Bulk Quantity Units"
           type="number"
           onChange={onFormChange}
+          readOnly
+          min="0"
         />
       </div>
       <div className="three-col" style={{ position: "relative" }}>
@@ -57,25 +63,22 @@ export default function SalesRow({
           placeholder="Quantity"
           type="number"
           onChange={onFormChange}
+          min="0"
         />
-        {/* <Input
-        name="price"
-        value={product.price}
-        label="Price"
-        placeholder="Price"
-        type="number"
-        onChange={onFormChange}
-        readOnly
-      /> */}
         <div style={{ display: "inline" }}>
           <Input
             name="total"
-            value={(product.price * product.quantity).toFixed(2)}
+            value={
+              product.saleTypeId === "1"
+                ? (product.bulkPrice * product.quantity).toFixed(2)
+                : (product.unitPrice * product.quantity).toFixed(2)
+            }
             label="Total"
             placeholder="Total"
             type="number"
             readOnly
             onChange={onFormChange}
+            min="0"
           />
           <div
             style={{
