@@ -10,8 +10,9 @@ import DropDownList from "../shared/DropDownList";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import SalesRow from "./SalesRow";
+import actions from "../../store/actions";
 
-function SalesRecords({ setMessage, setError, history }) {
+function SalesRecords({ setMessage, setError, history, setSalesRecord }) {
   const [searchForm, setSearchForm] = useState({ code: "", name: "" });
   const [productsState, setProductsState] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([]);
@@ -51,25 +52,67 @@ function SalesRecords({ setMessage, setError, history }) {
       })
     );
   }
+
+  function getSalesSummary() {
+    return selectedProducts.map(
+      ({
+        name,
+        barcode,
+        typeName,
+        categoryName,
+        bulkPrice,
+        unitPrice,
+        quantity,
+        saleTypeId,
+      }) => {
+        let product = {
+          name,
+          barcode,
+          typeName,
+          categoryName,
+          bulkPrice: parseFloat(bulkPrice),
+          unitPrice: parseFloat(unitPrice),
+          quantity: parseFloat(quantity),
+          saleTypeId: parseInt(saleTypeId),
+        };
+        product.saleTypeName = constants.salesTypes.find(
+          (x) => x.id == saleTypeId
+        ).name;
+        product.total =
+          saleTypeId === 1
+            ? (product.bulkPrice * product.quantity).toFixed(2)
+            : (product.unitPrice * product.quantity).toFixed(2);
+
+        return product;
+      }
+    );
+  }
+
   function onSubmitSales() {
-    if (window.confirm("Are you sure you want to save?")) {
-      const toSend = selectedProducts.map((prod) => {
-        prod.quantity = parseInt(prod.quantity);
-        return prod;
-      });
-      utils
-        .postdata({ products: toSend }, constants.backendApi.record_sales)
-        .then((res) => {
-          if (res.success) {
-            setMessage("Sales Record Saved Successfully");
-            document.getElementById("btn_box").style.display = "none";
-          } else {
-            res.errors.forEach((d) => {
-              setError(d);
-            });
-          }
-        });
-    }
+    let salesData = {
+      grandTotal: calculateGrandtotal(),
+      products: getSalesSummary(),
+    };
+    // if (window.confirm("Are you sure you want to save?")) {
+    //   const toSend = selectedProducts.map((prod) => {
+    //     prod.quantity = parseInt(prod.quantity);
+    //     return prod;
+    //   });
+    //   utils
+    //     .postdata({ products: toSend }, constants.backendApi.record_sales)
+    //     .then((res) => {
+    //       if (res.success) {
+    //         setMessage("Sales Record Saved Successfully");
+    //         document.getElementById("btn_box").style.display = "none";
+    //       } else {
+    //         res.errors.forEach((d) => {
+    //           setError(d);
+    //         });
+    //       }
+    //     });
+    // }
+    setSalesRecord({ type: actions.ADD_SALES_RECORD, payload: salesData });
+    history.push("/preview-sales");
   }
   function onCancelProduct(index) {
     setSelectedProducts(
@@ -77,14 +120,15 @@ function SalesRecords({ setMessage, setError, history }) {
     );
   }
   function calculateGrandtotal() {
-    selectedProducts
+    let total = selectedProducts
       .reduce((prev, curr) => {
         if (curr.saleTypeId === "1") {
-          return curr.quantity * curr.bulkPrice;
+          return prev + parseFloat(curr.quantity) * parseFloat(curr.bulkPrice);
         }
-        return curr.quantity * curr.unitPrice;
+        return prev + parseFloat(curr.quantity) * parseFloat(curr.unitPrice);
       }, 0)
       .toFixed(2);
+    return parseFloat(total);
   }
   return (
     <>
@@ -137,17 +181,7 @@ function SalesRecords({ setMessage, setError, history }) {
               <div></div>
               <div>
                 <h3>Grand Total</h3>
-                <h3>
-                  GHC{" "}
-                  {selectedProducts
-                    .reduce((prev, curr) => {
-                      if (curr.saleTypeId === "1") {
-                        return curr.quantity * curr.bulkPrice;
-                      }
-                      return curr.quantity * curr.unitPrice;
-                    }, 0)
-                    .toFixed(2)}
-                </h3>
+                <h3>GHC {calculateGrandtotal()}</h3>
               </div>
               <div id="btn_box">
                 <br />
@@ -167,7 +201,14 @@ function SalesRecords({ setMessage, setError, history }) {
   );
 }
 
+function setSalesRecord(data) {
+  return function (dispatch) {
+    dispatch(data);
+  };
+}
+
 export default connect(null, {
   setError: utils.setError,
   setMessage: utils.setMessage,
+  setSalesRecord,
 })(withRouter(SalesRecords));

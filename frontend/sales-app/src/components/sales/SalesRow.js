@@ -70,8 +70,12 @@ export default function SalesRow({
             name="total"
             value={
               product.saleTypeId === "1"
-                ? (product.bulkPrice * product.quantity).toFixed(2)
-                : (product.unitPrice * product.quantity).toFixed(2)
+                ? (
+                    parseFloat(product.bulkPrice) * parseFloat(product.quantity)
+                  ).toFixed(2)
+                : (
+                    parseFloat(product.unitPrice) * parseFloat(product.quantity)
+                  ).toFixed(2)
             }
             label="Total"
             placeholder="Total"
