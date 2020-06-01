@@ -1,0 +1,39 @@
+.sales-preview th,
+.sales-preview td,
+.sales-preview .g-total {
+  padding: 5px 10px;
+}
+.sales-preview tbody th,
+.sales-preview tbody td {
+  max-width: 200px;
+  border-bottom: 1px solid black;
+}
+.sales-preview tbody td:nth-child(3) {
+  text-align: center;
+}
+
+.sales-preview table {
+  margin-top: 20px;
+  text-align: left;
+  border-spacing: 0;
+  width: 100%;
+}
+.sales-preview .table-top,
+.sales-preview .g-total {
+  /* background-color: #43b4ff;
+  color: #fff; */
+  font-weight: 600;
+  letter-spacing: 1px;
+  /* border: 1px black solid; */
+}
+.sales-preview .table-top {
+  text-align: center;
+}
+
+.sales-preview .g-total {
+  text-align: right;
+  letter-spacing: 0;
+}
+.sales-preview {
+  max-width: 500px;
+}

@@ -17,7 +17,13 @@ const subtitleStyle = {
 };
 const hrStyle = { color: "#000", opacity: "0.2", margin: "10px 0" };
 
-export default ({ children, header, subtitle, transparent = false }) => {
+export default ({
+  children,
+  header,
+  subtitle,
+  transparent = false,
+  wide = false,
+}) => {
   let cardStyle = {
     width: "100%",
     //height: '100%',
@@ -28,6 +34,7 @@ export default ({ children, header, subtitle, transparent = false }) => {
     minWidth: "50px",
     minHeight: "50px",
   };
+  if (wide === true) cardStyle = { ...cardStyle, minWidth: "600px" };
 
   return (
     <div className="card" style={cardStyle}>

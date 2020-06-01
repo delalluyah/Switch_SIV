@@ -31,6 +31,10 @@ const constants = {
     { name: "Bulk Purchase", id: 1 },
     { name: "Retail Purchase", id: 2 },
   ],
+  salesTypeConstants: {
+    Bulk: 1,
+    Retail: 2,
+  },
 };
 
 export default constants;
