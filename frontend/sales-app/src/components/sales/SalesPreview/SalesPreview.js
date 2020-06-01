@@ -30,7 +30,17 @@ function SalesPreview({ sales, setError }) {
   }
 
   function onSubmit(e) {
-    document.querySelector("table").print();
+    const css = String(
+      `<link href="custom_styles/printpdf.css"  rel="text/stylesheet"/>`
+    );
+    window.frames["print_frame"].document.body.innerHTML =
+      css + document.querySelector(".sales-preview").innerHTML;
+    //   window.frames["print_frame"].document.body.style.backgroundColor = "red";
+    setTimeout(() => {
+      window.frames["print_frame"].window.focus();
+      window.frames["print_frame"].window.print();
+    }, 3000);
+
     if (amountPaid <= 0 || amountPaid < sales.grandTotal) {
       setError("Amount paid cannot be less than Total");
       return;
@@ -72,6 +82,13 @@ function SalesPreview({ sales, setError }) {
         </div>
         <Button text="Submit & Print" onClick={onSubmit} />
       </div>
+      <iframe
+        title="print_preview_frame"
+        name="print_frame"
+        id="print_frame"
+        width="500"
+        height="300"
+      ></iframe>
     </Card>
   );
 }
