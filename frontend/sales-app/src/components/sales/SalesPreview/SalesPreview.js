@@ -30,17 +30,8 @@ function SalesPreview({ sales, setError }) {
   }
 
   function onSubmit(e) {
-    const css = String(
-      `<link href="custom_styles/printpdf.css"  rel="text/stylesheet"/>`
-    );
-    window.frames["print_frame"].document.body.innerHTML =
-      css + document.querySelector(".sales-preview").innerHTML;
-    //   window.frames["print_frame"].document.body.style.backgroundColor = "red";
-    setTimeout(() => {
-      window.frames["print_frame"].window.focus();
-      window.frames["print_frame"].window.print();
-    }, 3000);
-
+    generateIframe();
+    printIframe();
     if (amountPaid <= 0 || amountPaid < sales.grandTotal) {
       setError("Amount paid cannot be less than Total");
       return;
@@ -82,13 +73,7 @@ function SalesPreview({ sales, setError }) {
         </div>
         <Button text="Submit & Print" onClick={onSubmit} />
       </div>
-      <iframe
-        title="print_preview_frame"
-        name="print_frame"
-        id="print_frame"
-        width="500"
-        height="300"
-      ></iframe>
+      <div id="preview-sec"></div>
     </Card>
   );
 }
@@ -125,6 +110,50 @@ function populateProducts(products, topic) {
       </>
     );
   return null;
+}
+
+function generateIframe() {
+  let iframe = document.createElement("iframe");
+  iframe.setAttribute("title", "print_preview_frame");
+  iframe.setAttribute("name", "print_preview");
+  iframe.setAttribute("id", "print_preview");
+  iframe.setAttribute("width", "0");
+  iframe.setAttribute("height", "0");
+
+  let prev = document.getElementById("preview-sec");
+  if (prev.children.length > 0) {
+    let children = Array.from(prev.children);
+    for (let child of children) {
+      child.parentElement.removeChild(child);
+    }
+  }
+  prev.appendChild(iframe);
+}
+
+function printIframe() {
+  // const css = String(
+  //   `<link href="custom_styles/printpdf.css"  rel="text/stylesheet"/>`
+  // );
+  setTimeout(() => {
+    // window.resizeTo(302.36220472, 2000);
+    window.resizeTo(
+      window.screen.availWidth / 2,
+      window.screen.availHeight / 2
+    );
+    let title = document.createElement("h4");
+    title.style.textAlign = "center";
+    let frame = window.frames["print_preview"];
+    title.appendChild(
+      document.createTextNode("INVENTORY / SALES MANAGEMENT APP")
+    );
+
+    frame.document.body.appendChild(title);
+    frame.document.body.appendChild(
+      document.querySelector(".sales-preview").cloneNode(true)
+    );
+    frame.window.focus();
+    frame.window.print();
+  }, 500);
 }
 export default connect(mapStateToProps, {
   setError: utils.setError,
