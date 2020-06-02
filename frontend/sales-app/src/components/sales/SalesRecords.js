@@ -79,7 +79,7 @@ function SalesRecords({ setMessage, setError, history, setSalesRecord }) {
           (x) => x.id == saleTypeId
         ).name;
         product.total =
-          saleTypeId === 1
+          product.saleTypeId === constants.salesTypeConstants.Bulk
             ? (product.bulkPrice * product.quantity).toFixed(2)
             : (product.unitPrice * product.quantity).toFixed(2);
 

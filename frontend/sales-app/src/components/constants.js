@@ -35,6 +35,12 @@ const constants = {
     Bulk: 1,
     Retail: 2,
   },
+  company: {
+    name: "COMPANY NAME HERE",
+    location: "Comet - Kwabenya",
+    phone: "+233244825469",
+    email: "somemail@example.com",
+  },
 };
 
 export default constants;
