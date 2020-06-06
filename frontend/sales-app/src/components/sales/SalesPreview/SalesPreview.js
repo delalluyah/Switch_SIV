@@ -229,7 +229,7 @@ function setupPreview(sales, receiptNum, username) {
       "tr",
       "",
       genElement("td", "", genElement("text", prod.name)),
-      genElement("td", "", genElement("text", prod.saleTypeName)),
+      genElement("td", "", genElement("text", prod.saleTypeName.split(" ")[0])),
       genElement(
         "td",
         "",

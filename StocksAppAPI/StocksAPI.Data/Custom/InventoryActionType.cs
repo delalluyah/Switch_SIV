@@ -4,9 +4,9 @@ using System.Text;
 
 namespace StocksAPI.Data.Custom
 {
-    public enum InventoryActionType
+    public static class InventoryActionType
     {
-        StockIn = 1,
-        Purchase = 2
+        public static int StockIn { get; set; } = 1;
+        public static int Purchase { get; set; } = 2;
     }
 }

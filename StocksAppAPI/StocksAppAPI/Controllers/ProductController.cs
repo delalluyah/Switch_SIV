@@ -56,7 +56,7 @@ namespace StocksAppAPI.Controllers
                         CategoryId = data.CategoryId,
                         TypeId = data.TypeId,
                         Description = data.Description,
-                        Cost = data.Cost,
+                        Cost = unitCost,
                         UnitPrice = data.UnitPrice,
                         Quantity = qty,
                         Barcode = data.Barcode,

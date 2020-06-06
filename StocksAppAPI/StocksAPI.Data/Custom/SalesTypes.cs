@@ -4,9 +4,9 @@ using System.Text;
 
 namespace StocksAPI.Data.Custom
 {
-    public enum SalesTypes
+    public static class SalesTypes
     {
-        BulkPurchase = 1,
-        RetailPurchase =2
+        public static int BulkPurchase { get; set; } = 1;
+        public static int RetailPurchase { get; set; } = 2;
     }
 }

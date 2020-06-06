@@ -25,6 +25,8 @@ namespace StocksAPI.Data
         public virtual DbSet<RefreshToken> RefreshToken { get; set; }
         public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<RolePermission> RolePermission { get; set; }
+        public virtual DbSet<SalesRecord> SalesRecord { get; set; }
+        public virtual DbSet<SalesRecordItem> SalesRecordItem { get; set; }
         public virtual DbSet<User> User { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -152,6 +154,26 @@ namespace StocksAPI.Data
                     .HasForeignKey(d => d.RoleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("RolePermission_RoleId_fkey");
+            });
+
+            modelBuilder.Entity<SalesRecord>(entity =>
+            {
+                entity.Property(e => e.Date).HasDefaultValueSql("now()");
+
+                entity.Property(e => e.ReceiptNumber).IsRequired();
+            });
+
+            modelBuilder.Entity<SalesRecordItem>(entity =>
+            {
+                entity.Property(e => e.ProductName).IsRequired();
+
+                entity.Property(e => e.SaleType).IsRequired();
+
+                entity.HasOne(d => d.SalesRecord)
+                    .WithMany(p => p.SalesRecordItem)
+                    .HasForeignKey(d => d.SalesRecordId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("SalesRecordItem_SalesRecordId_fkey");
             });
 
             modelBuilder.Entity<User>(entity =>
