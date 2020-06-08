@@ -26,6 +26,9 @@ const constants = {
     delete_user: baseUrl + "/user/delete/",
     get_roles: baseUrl + "/role/index/",
     record_sales: baseUrl + "/Sales/RecordSales/",
+    get_sales_records: baseUrl + "/Sales/SalesRecords/",
+    sales_rec_by_date: baseUrl + "/Sales/SalesRecordsByDate/",
+    sales_rec_by_id: baseUrl + "/Sales/SalesRecordsById/",
   },
   salesTypes: [
     { name: "Bulk Purchase", id: 1 },
@@ -36,10 +39,10 @@ const constants = {
     Retail: 2,
   },
   company: {
-    name: "COMPANY NAME HERE",
+    name: "LULU'S BUSINESS CENTER",
     location: "Comet - Kwabenya",
     phone: "+233244825469",
-    email: "somemail@example.com",
+    email: "duholucia@gmail.com",
   },
 };
 

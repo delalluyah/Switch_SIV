@@ -28,6 +28,8 @@ import AddUser from "./components/users/AddUser";
 import SalesDashboard from "./components/sales/SalesDashboard";
 import constants from "./components/constants";
 import SalesPreview from "./components/sales/SalesPreview/SalesPreview";
+import SalesHistory from "./components/sales/SalesHistory/SalesHistory";
+import SalesDetails from "./components/sales/SalesDetails/SalesDetails";
 
 function App() {
   useEffect(() => {
@@ -117,9 +119,21 @@ function App() {
           />
           <PrivateRoute
             exact
+            path="/sales-history"
+            component={Dashboard}
+            subComponent={SalesHistory}
+          />
+          <PrivateRoute
+            exact
             path="/preview-sales"
             component={Dashboard}
             subComponent={SalesPreview}
+          />
+          <PrivateRoute
+            exact
+            path="/Sales-Details/:id"
+            component={Dashboard}
+            subComponent={SalesDetails}
           />
           <PrivateRoute
             exact

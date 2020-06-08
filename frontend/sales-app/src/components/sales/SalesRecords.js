@@ -54,8 +54,10 @@ function SalesRecords({ setMessage, setError, history, setSalesRecord }) {
   }
 
   function getSalesSummary() {
+    console.log(selectedProducts);
     return selectedProducts.map(
       ({
+        id,
         name,
         barcode,
         typeName,
@@ -66,6 +68,7 @@ function SalesRecords({ setMessage, setError, history, setSalesRecord }) {
         saleTypeId,
       }) => {
         let product = {
+          productId: id,
           name,
           barcode,
           typeName,

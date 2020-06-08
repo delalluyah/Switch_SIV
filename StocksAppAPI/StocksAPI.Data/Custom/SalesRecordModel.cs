@@ -22,6 +22,11 @@ namespace StocksAPI.Data.Custom
         public long Id { get; set; }
         public string ReceiptNumber { get; set; }
         public DateTime Date { get; set; }
+        public string DateStr
+        {
+            get
+            { return Date.ToString("MMM-dd-yyyy"); }
+        }
         public string SalesPerson { get; set; }
         public double GrandTotal { get; set; }
         public double AmountPaid { get; set; }

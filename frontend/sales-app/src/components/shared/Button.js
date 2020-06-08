@@ -1,16 +1,17 @@
-import React from 'react'
-import './styles/button.css'
+import React from "react";
+import "./styles/button.css";
 
-const buttonStyles = { position: 'relative' }
+const buttonStyles = { position: "relative" };
 
 export default ({
   onClick = () => {},
   text,
   type,
-  className = 'primary',
+  className = "primary",
   icon,
   image,
   tooltip,
+  ...rest
 }) => {
   return (
     <button
@@ -18,22 +19,23 @@ export default ({
       type={type}
       className={className}
       style={buttonStyles}
+      {...rest}
     >
       {icon && <i className={`${icon}`}></i>}
       {image && (
         <img
           src={image}
           style={{
-            height: '70%',
-            width: 'auto',
-            position: 'absolute',
-            left: '5px',
-            top: '5px',
+            height: "70%",
+            width: "auto",
+            position: "absolute",
+            left: "5px",
+            top: "5px",
           }}
           alt=""
         />
       )}
       {text}
     </button>
-  )
-}
+  );
+};

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore;
 using StocksAPI.Data;
 using StocksAPI.Data.Custom;
 using StocksApp.Utilities.Logging;
@@ -33,15 +35,16 @@ namespace StocksAppAPI.Controllers
                 {
                     foreach (var item in data.Products)
                     {
+                        var qty = item.Quantity;
                         var product = _db.Product.FirstOrDefault(pr => pr.ProductId == item.ProductId);
                         if (item.SaleTypeId == SalesTypes.BulkPurchase)
-                            item.Quantity = product.BulkUnits * item.Quantity;
+                            qty = product.BulkUnits * item.Quantity;
 
                         if (product.Quantity < item.Quantity)
                         {
                             return Ok(new { success = false, errors = new List<string> { $"Selected Quantity for {item.ProductName} is more than available amount" } });
                         }
-                        product.Quantity -= item.Quantity;
+                        product.Quantity -= qty;
 
                         var activityLog = new InventoryActivityLog
                         {
@@ -59,15 +62,16 @@ namespace StocksAppAPI.Controllers
                     });
                     //save sales record HERE
                     var record = data.ToSalesRecord();
-                    var items = data.Products.Select(p=>p.ToSalesRecordItem()).ToList();
+                    var items = data.Products.Select(p => p.ToSalesRecordItem()).ToList();
 
                     _db.SalesRecord.Add(record);
+                    await _db.SaveChangesAsync();
+
                     items.ForEach(i =>
                     {
                         i.SalesRecordId = record.SalesRecordId;
                         _db.SalesRecordItem.Add(i);
                     });
-
                     await _db.SaveChangesAsync();
                     return Ok(new { success = true });
                 }
@@ -78,5 +82,55 @@ namespace StocksAppAPI.Controllers
             }
             return Ok(new { success = false, errors = new List<string> { $"Sorry, an error occured, please try again" } });
         }
+
+        [HttpGet("SalesRecords")]
+        public async Task<IActionResult> SalesRecords()
+        {
+            try
+            {
+                var data = await _db.SalesRecord.Include(r => r.SalesRecordItem)
+                    .Select(r => new SalesRecordModel(r)).ToListAsync();
+                return Ok(new { success = true, data });
+            }
+            catch (Exception e)
+            {
+                _logger.logError(e);
+            }
+            return Ok(new { success = false, errors = new List<string> { $"Sorry, an error occured, please try again" } });
+        }
+
+        [HttpPost("SalesRecordsByDate")]
+        public async Task<IActionResult> SalesRecordsByDateRange(DateRange dateRange)
+        {
+            try
+            {
+                var data = await _db.SalesRecord.Include(r => r.SalesRecordItem)
+                    .Where(d => d.Date >= dateRange.StartDate && d.Date <= dateRange.EndDate)
+                    .Select(r => new SalesRecordModel(r)).ToListAsync();
+                return Ok(new { success = true, data });
+            }
+            catch (Exception e)
+            {
+                _logger.logError(e);
+            }
+            return Ok(new { success = false, errors = new List<string> { $"Sorry, an error occured, please try again" } });
+        }
+
+        [HttpGet("SalesRecordsById/{id}")]
+        public async Task<IActionResult> SalesRecordsById(long id)
+        {
+            try
+            {
+                var data = new SalesRecordModel(await _db.SalesRecord.Include(r => r.SalesRecordItem)
+                    .FirstOrDefaultAsync(x => x.SalesRecordId == id));
+                return Ok(new { success = true, data });
+            }
+            catch (Exception e)
+            {
+                _logger.logError(e);
+            }
+            return Ok(new { success = false, errors = new List<string> { $"Sorry, an error occured, please try again" } });
+        }
+
     }
 }

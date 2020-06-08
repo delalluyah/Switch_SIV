@@ -1,6 +1,7 @@
 import React from "react";
 import "./sidebar.css";
 import user from "./user.svg";
+import { Link } from "react-router-dom";
 
 export default function SideBar({ fullname = "", role = "" }) {
   return (
@@ -21,9 +22,9 @@ export default function SideBar({ fullname = "", role = "" }) {
       </div>
       <hr className="hr" />
       <ul className="side-menu">
-        <li className="side-menu-item active">
+        {/* <li className="side-menu-item active">
           <i className="fas fa-chart-line"></i> <a href="/">Dashboard</a>
-        </li>
+        </li> */}
         <li className="side-menu-item">
           <i className="fas fa-cart-arrow-down"></i>
           <a href="/record-sales">Record Sales</a>
@@ -34,7 +35,7 @@ export default function SideBar({ fullname = "", role = "" }) {
         </li>
         <li className="side-menu-item">
           <i className="fas fa-cart-plus"></i>
-          <a href="/add-products">Sales History</a>
+          <a href="/sales-history">Sales History</a>
         </li>
       </ul>
     </div>

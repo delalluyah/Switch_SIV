@@ -8,19 +8,20 @@ import Button from "../../shared/Button";
 import constants from "../../constants";
 import utils from "../../../utils";
 
-function SalesPreview({ sales, setError, auth }) {
+function SalesPreview({ sales, setError, setMessage, auth }) {
   const [amountPaid, setAmountPaid] = useState(0);
   const [balance, setBalance] = useState(0);
-  let receiptNum;
+  let receiptNum, saleDate;
 
   (function setReceiptNumber() {
     receiptNum = "LL-" + Date.now().toString();
+    saleDate = new Date();
   })();
 
   useEffect(() => {
     generateIframe();
-    setupPreview(sales, receiptNum, auth.user.fullname);
-
+    setupPreview(sales, receiptNum, auth.user.fullname, saleDate);
+    console.log(sales.products);
     return () => {
       //cleanup
     };
@@ -42,13 +43,62 @@ function SalesPreview({ sales, setError, auth }) {
     else setBalance(bal);
   }
 
+  function sendDataAndPrintReceipt() {
+    let toSend = {
+      receiptNumber: receiptNum,
+      date: saleDate,
+      salesPerson: auth.user.fullname,
+      grandTotal: sales.grandTotal,
+      amountPaid: parseFloat(amountPaid),
+      balance: parseFloat(balance),
+    };
+    let prods = sales.products.map(
+      ({
+        productId,
+        saleTypeId,
+        name,
+        quantity,
+        saleTypeName,
+        bulkPrice,
+        unitPrice,
+        total,
+      }) => {
+        return {
+          productId,
+          saleTypeId,
+          productName: name,
+          quantity,
+          saleType: saleTypeName,
+          totalAmount: parseFloat(total),
+          singleItemAmount:
+            saleTypeId == constants.salesTypeConstants.Bulk
+              ? bulkPrice
+              : unitPrice,
+        };
+      }
+    );
+    toSend["products"] = [...prods];
+
+    utils.postdata(toSend, constants.backendApi.record_sales).then((res) => {
+      if (res.success) {
+        setMessage("Sales Record Saved Successfully");
+        document.getElementById("btn_submit_print").style.display = "none";
+        printIframe();
+      } else {
+        res.errors.forEach((d) => {
+          setError(d);
+        });
+      }
+    });
+  }
+
   function onSubmit(e) {
     //generateIframe();
-    printIframe();
     if (amountPaid <= 0 || amountPaid < sales.grandTotal) {
       setError("Amount paid cannot be less than Total");
       return;
     }
+    sendDataAndPrintReceipt();
   }
 
   return (
@@ -85,7 +135,11 @@ function SalesPreview({ sales, setError, auth }) {
               readOnly
             />
           </div>
-          <Button text="Submit & Print" onClick={onSubmit} />
+          <Button
+            id="btn_submit_print"
+            text="Submit & Print"
+            onClick={onSubmit}
+          />
         </div>
         <div id="preview-sec"></div>
       </div>
@@ -174,7 +228,7 @@ function genElement(label, className, ...children) {
   return elem;
 }
 
-function setupPreview(sales, receiptNum, username) {
+function setupPreview(sales, receiptNum, username, date) {
   let frame = window.frames["print_preview"];
   let titles = [
     genElement(
@@ -212,7 +266,7 @@ function setupPreview(sales, receiptNum, username) {
   receiptName.style.textDecoration = "underline";
   frame.document.body.appendChild(receiptName);
   frame.document.body.appendChild(genElement("hr", ""));
-  let currDate = new Date().toUTCString().split(" ").slice(0, 5).join(" ");
+  let currDate = date.toUTCString().split(" ").slice(0, 5).join(" ");
   let subelems = [
     genElement("h6", "", genElement("text", "Receipt No :  " + receiptNum)),
     genElement("h6", "", genElement("text", "Sales Person :  " + username)),
@@ -276,4 +330,5 @@ function setupPreview(sales, receiptNum, username) {
 }
 export default connect(mapStateToProps, {
   setError: utils.setError,
+  setMessage: utils.setMessage,
 })(withRouter(SalesPreview));
