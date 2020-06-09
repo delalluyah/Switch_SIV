@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StocksAPI.Data;
@@ -10,6 +11,7 @@ using StocksApp.Utilities.Logging;
 namespace StocksAppAPI.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize(Roles ="Administrator")]
     [ApiController]
     public class RoleController : ControllerBase
     {

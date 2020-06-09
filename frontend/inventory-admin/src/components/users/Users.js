@@ -1,42 +1,49 @@
-import './user.css'
-import React, { useState, useEffect } from 'react'
-import { withRouter } from 'react-router'
-import utils from '../../utils'
-import constants from '../constants'
+import "./user.css";
+import React, { useState, useEffect } from "react";
+import { withRouter } from "react-router";
+import utils from "../../utils";
+import constants from "../constants";
 import {
   Grid,
   GridColumn as Column,
   GridToolbar,
-} from '@progress/kendo-react-grid'
-import Button from '../shared/Button'
-import Card from '../shared/Card'
+} from "@progress/kendo-react-grid";
+import Button from "../shared/Button";
+import Card from "../shared/Card";
 
 function Users({ history }) {
-  const [pageState, setPageState] = useState({ skip: 0, take: 10 })
-  const [users, setUsers] = useState([])
+  const [pageState, setPageState] = useState({ skip: 0, take: 10 });
+  const [users, setUsers] = useState([]);
+
+  function onUnauthorized() {
+    history.push(constants.home_pages.non_admin);
+    document.getElementById("side-menu-users").style.display = "none";
+  }
 
   useEffect(() => {
-    utils.getdata(constants.backendApi.get_users).then((resp) => {
-      console.log(resp)
-      if (resp.success === true) setUsers(resp.data)
-    })
+    utils
+      .getdata(constants.backendApi.get_users, onUnauthorized)
+      .then((resp) => {
+        console.log(resp);
+        if (resp.success === true) setUsers(resp.data);
+      });
     return () => {
       // do nothing
-    }
-  }, [])
+    };
+  }, []);
 
   const pageChange = (event) => {
     setPageState({
       skip: event.page.skip,
       take: event.page.take,
-    })
-  }
+    });
+  };
 
   return (
-    <div style={{ marginBottom: '10px' }}>
+    <div style={{ marginBottom: "10px" }}>
       <Card>
         <Grid
-          style={{ height: '500px' }}
+          style={{ height: "500px" }}
           data={users.slice(pageState.skip, pageState.take + pageState.skip)}
           skip={pageState.skip}
           take={pageState.take}
@@ -45,10 +52,10 @@ function Users({ history }) {
           onPageChange={pageChange}
         >
           <GridToolbar>
-            <div style={{ width: '200px' }}>
+            <div style={{ width: "200px" }}>
               <Button
                 onClick={(e) => {
-                  history.push('/add-user/')
+                  history.push("/add-user/");
                 }}
                 className="primary"
                 text="+ Add New User"
@@ -77,7 +84,7 @@ function Users({ history }) {
         </Grid>
       </Card>
     </div>
-  )
+  );
 }
 
-export default withRouter(Users)
+export default withRouter(Users);

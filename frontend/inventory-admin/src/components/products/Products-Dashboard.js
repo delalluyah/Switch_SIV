@@ -15,7 +15,6 @@ function ProductsDashboard({ history }) {
 
   useEffect(() => {
     utils.getdata(constants.backendApi.get_products).then((resp) => {
-      console.log(resp);
       if (resp.success === true) setProducts(resp.data);
     });
     return () => {

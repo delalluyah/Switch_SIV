@@ -1,46 +1,54 @@
-import React, { useEffect } from 'react'
-import './App.css'
-import './components/shared/styles/grid.css'
-import './components/layout/sidebar/SideBar'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import Login from './components/auth/login/Login'
-import { Provider } from 'react-redux'
-import store from './store'
-import PrivateRoute from './components/PrivateRoute'
-import AlertBox from './components/shared/alertbox/AlertBox'
-import utils from './utils'
-import actions from './store/actions'
-import Dashboard from './Dashboard'
-import DashboardHome from './components/dashboard/Dashboard-Home'
-import ProductsDashboard from './components/products/Products-Dashboard'
-import AddProduct from './components/products/AddProduct'
-import ProductCategory from './components/products/AddProductCategory'
-import ProductCategories from './components/products/ProductCategories'
-import ProductTypes from './components/products/ProductTypes'
-import AddProductType from './components/products/AddProductType'
-import UpdateProductType from './components/products/UpdateProductType'
-import UpdateProductCategory from './components/products/UpdateProductCategory'
-import ProductDetails from './components/products/ProductDetails'
-import UpdateProduct from './components/products/UpdateProduct'
-import Users from './components/users/Users'
-import UpdateUser from './components/users/UpdateUser'
-import AddUser from './components/users/AddUser'
-import SalesDashboard from './components/sales/SalesDashboard'
+import React, { useEffect } from "react";
+import "./App.css";
+import "./components/shared/styles/grid.css";
+import "./components/layout/sidebar/SideBar";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Login from "./components/auth/login/Login";
+import { Provider } from "react-redux";
+import store from "./store";
+import PrivateRoute from "./components/PrivateRoute";
+import AlertBox from "./components/shared/alertbox/AlertBox";
+import utils from "./utils";
+import actions from "./store/actions";
+import Dashboard from "./Dashboard";
+import DashboardHome from "./components/dashboard/Dashboard-Home";
+import ProductsDashboard from "./components/products/Products-Dashboard";
+import AddProduct from "./components/products/AddProduct";
+import ProductCategory from "./components/products/AddProductCategory";
+import ProductCategories from "./components/products/ProductCategories";
+import ProductTypes from "./components/products/ProductTypes";
+import AddProductType from "./components/products/AddProductType";
+import UpdateProductType from "./components/products/UpdateProductType";
+import UpdateProductCategory from "./components/products/UpdateProductCategory";
+import ProductDetails from "./components/products/ProductDetails";
+import UpdateProduct from "./components/products/UpdateProduct";
+import Users from "./components/users/Users";
+import UpdateUser from "./components/users/UpdateUser";
+import AddUser from "./components/users/AddUser";
+import SalesDashboard from "./components/sales/SalesDashboard";
 
 function App() {
   useEffect(() => {
     let x = setInterval(() => {
       if (utils.userTokenExpired(utils.getUserDetails())) {
-        localStorage.removeItem('inventory_us_cred')
-        store.dispatch({ type: actions.SET_CURRENT_USER, payload: {} })
+        localStorage.removeItem("inventory_us_cred");
+        store.dispatch({ type: actions.SET_CURRENT_USER, payload: {} });
       }
-    }, 5000)
+    }, 5000);
     return () => {
-      clearInterval(x)
+      clearInterval(x);
+    };
+  }, []);
+  let user = utils.getUserDetails();
+  if (typeof user.role === "string") {
+    if (user.role.toLowerCase().indexOf("administrator") === -1) {
+      document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("side-menu-users").style.display = "none";
+        document.getElementById("side-menu-dboard").style.display = "none";
+      });
     }
-  }, [])
-  let user = utils.getUserDetails()
-  store.dispatch({ type: actions.SET_CURRENT_USER, payload: user })
+  }
+  store.dispatch({ type: actions.SET_CURRENT_USER, payload: user });
   return (
     <Provider store={store}>
       <AlertBox />
@@ -133,7 +141,7 @@ function App() {
         </Switch>
       </Router>
     </Provider>
-  )
+  );
 }
 
-export default App
+export default App;

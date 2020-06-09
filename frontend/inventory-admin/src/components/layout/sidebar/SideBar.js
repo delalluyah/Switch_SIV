@@ -1,8 +1,8 @@
-import React from 'react'
-import './sidebar.css'
-import user from './user.svg'
+import React from "react";
+import "./sidebar.css";
+import user from "./user.svg";
 
-export default function SideBar({ fullname = '', role = '' }) {
+export default function SideBar({ fullname = "", role = "" }) {
   return (
     <div className="sidebar">
       <div className="user">
@@ -21,7 +21,7 @@ export default function SideBar({ fullname = '', role = '' }) {
       </div>
       <hr className="hr" />
       <ul className="side-menu">
-        <li className="side-menu-item active">
+        <li className="side-menu-item active" id="side-menu-dboard">
           <i className="fas fa-chart-line"></i> <a href="/">Dashboard</a>
         </li>
         <li className="side-menu-item">
@@ -36,11 +36,11 @@ export default function SideBar({ fullname = '', role = '' }) {
           <i className="fas fa-cart-arrow-down"></i>
           <a href="/record-sales">Record Sales</a>
         </li>
-        <li className="side-menu-parent">
+        <li className="side-menu-parent" id="side-menu-users">
           <ul>
             <p>
-              {' '}
-              <i className="fas fa-user-cog"></i> Users{' '}
+              {" "}
+              <i className="fas fa-user-cog"></i> Users{" "}
               <i className="right fas fa-angle-down"></i>
             </p>
             <li className="side-menu-item side-menu-child">
@@ -56,8 +56,8 @@ export default function SideBar({ fullname = '', role = '' }) {
         <li className="side-menu-parent">
           <ul>
             <p>
-              {' '}
-              <i className="fas fa-cog"></i>Configurations{' '}
+              {" "}
+              <i className="fas fa-cog"></i>Configurations{" "}
               <i className="right fas fa-angle-down"></i>
             </p>
             <li className="side-menu-item side-menu-child">
@@ -72,5 +72,5 @@ export default function SideBar({ fullname = '', role = '' }) {
         </li>
       </ul>
     </div>
-  )
+  );
 }

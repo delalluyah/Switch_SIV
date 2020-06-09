@@ -170,3 +170,15 @@
 hr.deepline {
   color: #000;
 }
+
+.item-details {
+  margin: 10px;
+}
+
+.item-details p {
+  margin-bottom: 3px;
+  font-size: 14px;
+}
+.item-details b {
+  margin-right: 6px;
+}

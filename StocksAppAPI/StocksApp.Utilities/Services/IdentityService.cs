@@ -217,6 +217,7 @@ namespace StocksApp.Utilities.Services
                     new Claim(JwtRegisteredClaimNames.UniqueName, user.Username),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new Claim(JwtRegisteredClaimNames.GivenName, user.Fullname),
+                    new Claim(ClaimTypes.Role,role.Name),
                     new Claim("Id", user.UserId.ToString()),
                     new Claim("Role", role.Name)
                 }),

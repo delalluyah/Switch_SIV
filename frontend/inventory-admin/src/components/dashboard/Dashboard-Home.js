@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react'
-import './dashboard-home.css'
-import MiniCard from '../shared/MiniCard'
-import box from './box.svg'
-import product from './product.svg'
-import price from './price.svg'
-import utils from '../../utils'
-import constants from '../constants'
+import React, { useState, useEffect } from "react";
+import "./dashboard-home.css";
+import MiniCard from "../shared/MiniCard";
+import box from "./box.svg";
+import product from "./product.svg";
+import price from "./price.svg";
+import utils from "../../utils";
+import constants from "../constants";
+import { withRouter } from "react-router";
 
-export default function DashboardHome() {
+function DashboardHome({ history }) {
   const [state, setState] = useState({
     totalProducts: 0,
     totalCost: 0,
@@ -27,13 +28,20 @@ export default function DashboardHome() {
       quantityAdded: 0,
       amount: 0,
     },
-  })
+  });
+  function onUnauthorized() {
+    history.push(constants.home_pages.non_admin);
+    document.getElementById("side-menu-dboard").style.display = "none";
+  }
 
   useEffect(() => {
-    utils.getdata(constants.backendApi.get_dashboard_summary).then((res) => {
-      if (res.success) setState(res.data)
-    })
-  }, [])
+    utils
+      .getdata(constants.backendApi.get_dashboard_summary, onUnauthorized)
+      .then((res) => {
+        if (res.success === true) setState(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
   return (
     <div className="dashboard-home">
       <Summary title="Summary">
@@ -60,13 +68,13 @@ export default function DashboardHome() {
           new Date().setDate(new Date().getDate() - 7)
         )
           .toString()
-          .split(' ')
+          .split(" ")
           .slice(0, 4)
-          .join(' ')} - ${new Date()
+          .join(" ")} - ${new Date()
           .toString()
-          .split(' ')
+          .split(" ")
           .slice(0, 4)
-          .join(' ')})`}
+          .join(" ")})`}
       >
         <MiniCard
           theme="orange"
@@ -92,13 +100,13 @@ export default function DashboardHome() {
           new Date().setDate(new Date().getDate() - 30)
         )
           .toString()
-          .split(' ')
+          .split(" ")
           .slice(0, 4)
-          .join(' ')} - ${new Date()
+          .join(" ")} - ${new Date()
           .toString()
-          .split(' ')
+          .split(" ")
           .slice(0, 4)
-          .join(' ')})`}
+          .join(" ")})`}
       >
         <MiniCard
           theme="secondary"
@@ -123,13 +131,13 @@ export default function DashboardHome() {
           new Date().setDate(new Date().getDate() - 365)
         )
           .toString()
-          .split(' ')
+          .split(" ")
           .slice(0, 4)
-          .join(' ')} - ${new Date()
+          .join(" ")} - ${new Date()
           .toString()
-          .split(' ')
+          .split(" ")
           .slice(0, 4)
-          .join(' ')})`}
+          .join(" ")})`}
       >
         <MiniCard
           theme="orange"
@@ -151,17 +159,17 @@ export default function DashboardHome() {
         />
       </Summary>
     </div>
-  )
+  );
 }
 
 const titleStyle = {
-  textAlign: 'center',
-  fontSize: '1.1em',
-  fontWeight: '500',
-}
+  textAlign: "center",
+  fontSize: "1.1em",
+  fontWeight: "500",
+};
 const summaryStyle = {
-  marginBottom: '20px',
-}
+  marginBottom: "20px",
+};
 const Summary = ({ title, children }) => {
   return (
     <div className="summary" style={summaryStyle}>
@@ -170,5 +178,7 @@ const Summary = ({ title, children }) => {
       </p>
       <div className="three-col">{children}</div>
     </div>
-  )
-}
+  );
+};
+
+export default withRouter(DashboardHome);

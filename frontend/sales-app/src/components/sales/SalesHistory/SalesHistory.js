@@ -52,7 +52,7 @@ function SalesHistory({ history }) {
               name="startDate"
               type="date"
               value={searchForm.startDate}
-              label="start Date"
+              label="Start Date"
               onChange={onChangeSearch}
               autoFocus={true}
             />
