@@ -24,7 +24,6 @@ function Users({ history }) {
     utils
       .getdata(constants.backendApi.get_users, onUnauthorized)
       .then((resp) => {
-        console.log(resp);
         if (resp.success === true) setUsers(resp.data);
       });
     return () => {

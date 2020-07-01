@@ -11,11 +11,11 @@ using StocksApp.Utilities.Logging;
 namespace StocksAppAPI.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize(Roles ="Administrator")]
+    [Authorize(Roles = "Administrator")]
     [ApiController]
     public class RoleController : ControllerBase
     {
-             private AppDbContext _db;
+        private AppDbContext _db;
         private Logger _logger;
 
         public RoleController(AppDbContext db, Logger logger)

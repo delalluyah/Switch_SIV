@@ -150,7 +150,7 @@ function App() {
           <PrivateRoute
             path="/"
             component={Dashboard}
-            subComponent={DashboardHome}
+            subComponent={SalesDashboard}
           />
         </Switch>
       </Router>

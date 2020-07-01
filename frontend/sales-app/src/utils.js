@@ -32,7 +32,7 @@ export default {
       //this.setError('Sorry, an error occured. Please try again')
     }
   },
-  getdata: async (url) => {
+  getdata: async (url, onUnauthorized = (x) => x) => {
     try {
       let token = localStorage.getItem(constants.user_token_name);
       if (!token) token = "";
@@ -45,7 +45,12 @@ export default {
           Authorization: "bearer " + token,
         },
       });
-      return await resp.json();
+      if (resp.status === 403) {
+        onUnauthorized();
+        return { success: false };
+      } else {
+        return await resp.json();
+      }
     } catch (e) {
       //this.setError('Sorry, an error occured. Please try again')
     }

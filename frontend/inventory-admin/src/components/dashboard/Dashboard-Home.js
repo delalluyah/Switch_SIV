@@ -44,7 +44,7 @@ function DashboardHome({ history }) {
   }, []);
   return (
     <div className="dashboard-home">
-      <Summary title="Summary">
+      {/* <Summary title="Summary">
         <MiniCard
           title="Total Products"
           value={`${state.totalProducts}`}
@@ -62,7 +62,7 @@ function DashboardHome({ history }) {
           title="Total Price"
           value={`GHC ${state.totalPrice}`}
         />
-      </Summary>
+      </Summary> */}
       <Summary
         title={`Weekly Summary (${new Date(
           new Date().setDate(new Date().getDate() - 7)

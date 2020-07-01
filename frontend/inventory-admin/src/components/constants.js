@@ -29,6 +29,20 @@ const constants = {
   home_pages: {
     non_admin: "/products",
   },
+  salesTypes: [
+    { name: "Bulk Purchase", id: 1 },
+    { name: "Retail Purchase", id: 2 },
+  ],
+  salesTypeConstants: {
+    Bulk: 1,
+    Retail: 2,
+  },
+  company: {
+    name: "LULU BUSINESS CENTER",
+    location: "Comet - Kwabenya",
+    phone: "+233244825469",
+    email: "duholucia@yahoo.com",
+  },
 };
 
 export default constants;

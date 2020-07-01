@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:5000/api";
+const baseUrl = "http://localhost:5050/api";
 const constants = {
   user_token_name: "inventory_sales_cred",
   backendApi: {
@@ -39,10 +39,10 @@ const constants = {
     Retail: 2,
   },
   company: {
-    name: "LULU'S BUSINESS CENTER",
+    name: "LULU BUSINESS CENTER",
     location: "Comet - Kwabenya",
     phone: "+233244825469",
-    email: "duholucia@gmail.com",
+    email: "duholucia@yahoo.com",
   },
 };
 
