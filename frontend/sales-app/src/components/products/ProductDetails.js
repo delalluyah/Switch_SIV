@@ -24,15 +24,16 @@ function ProductDetails({ history, match }) {
       <Card subtitle={product.name}>
         <div style={{ width: "150px", marginLeft: "auto" }}>
           <Button
-            onClick={() => history.push(`/product/update/${product.id}`)}
-            text="Update"
+            onClick={() => history.goBack()}
+            text="Back"
+            className="danger"
           />
         </div>
         <div className="two-col">
           <div className="item-details">
-            <p>
+            {/* <p>
               <b>Barcode:</b> {product.barcode}
-            </p>
+            </p> */}
             <p>
               <b>Product Name:</b> {product.name}
             </p>

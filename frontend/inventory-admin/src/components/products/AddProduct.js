@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Input from "../shared/Input";
 import TextArea from "../shared/TextArea";
+import DDLInput from "../shared/DDL_Input";
 import Card from "../shared/Card";
 import DropDownList from "../shared/DropDownList";
 import Button from "../shared/Button";
@@ -10,9 +11,7 @@ import utils from "../../utils";
 import constants from "../constants";
 
 function AddProduct({ setError, history, setMessage }) {
-  const [categories, setCategoriesState] = useState([]);
-  const [types, setTypesState] = useState([]);
-  const [formState, setformState] = useState({
+  const emptyFormObject = {
     barcode: "",
     name: "",
     categoryId: "",
@@ -24,39 +23,44 @@ function AddProduct({ setError, history, setMessage }) {
     bulkUnits: "1",
     bulkPrice: "",
     unitPrice: "",
-  });
+  };
+  const [categories, setCategoriesState] = useState([]);
+  const [types, setTypesState] = useState([]);
+  const [productsState, setProductsState] = useState([]);
+
+  const [formState, setformState] = useState(emptyFormObject);
+
+  function onSelectProduct(id) {
+    let selected = productsState.filter((el) => el.id == id)[0];
+    selected.quantity = 1;
+    (() => {
+      const {
+        name,
+        description,
+        categoryId,
+        typeId,
+        cost,
+        unitPrice,
+        barcode,
+        bulkUnits,
+        id,
+      } = selected;
+      setformState({
+        ...formState,
+        name,
+        description,
+        categoryId,
+        typeId,
+        unitPrice,
+        barcode,
+        bulkUnits,
+        productId: id,
+      });
+    })();
+    setMessage("Product selected");
+  }
   const onFieldChange = async (e) => {
     setformState({ ...formState, [e.target.name]: e.target.value });
-    if (e.target.name === "barcode") {
-      utils
-        .postdata(e.target.value, constants.backendApi.search_products_by_code)
-        .then((resp) => {
-          if (resp.success) {
-            //update form here
-            const {
-              name,
-              description,
-              categoryId,
-              typeId,
-              cost,
-              price,
-              barcode,
-              bulkUnits,
-            } = resp.data;
-            setformState({
-              ...formState,
-              name,
-              description,
-              categoryId,
-              typeId,
-              cost,
-              price,
-              barcode,
-              bulkUnits,
-            });
-          }
-        });
-    }
   };
   const getCategories = () => {
     utils
@@ -75,12 +79,18 @@ function AddProduct({ setError, history, setMessage }) {
       );
   };
 
+  const getAllProducts = () => {
+    utils.getdata(constants.backendApi.get_products).then((res) => {
+      if (res.success) setProductsState(res.data);
+    });
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
-    if (formState.barcode === "") {
-      setError("Barcode field cannot be empty");
-      return;
-    }
+    // if (formState.barcode === "") {
+    //   setError("Barcode field cannot be empty");
+    //   return;
+    // }
     if (formState.name === "") {
       setError("Product Name field cannot be empty");
       return;
@@ -129,6 +139,7 @@ function AddProduct({ setError, history, setMessage }) {
       .then((resp) => {
         if (resp.success === true) {
           setMessage("Stock updated successfully");
+          setformState(emptyFormObject);
           history.push("/products");
         } else setError("Sorry, an error occured. Please try again");
       })
@@ -138,6 +149,7 @@ function AddProduct({ setError, history, setMessage }) {
   useEffect(() => {
     getCategories();
     getTypes();
+    getAllProducts();
     return () => {};
   }, []);
 
@@ -148,16 +160,51 @@ function AddProduct({ setError, history, setMessage }) {
         subtitle="Note: If the product already exists, the record will be updated instead"
         //transparent={true}
       >
+        <div style={{ margin: "0 20px 10px" }}>
+          <DDLInput
+            label="Select Existing Product"
+            optionLabel="-- SELECT EXISTING PRODUCT --"
+            data={productsState.map((el) => {
+              return { value: el.id, label: el.name };
+            })}
+            onChange={onSelectProduct}
+            valueFieldName="id"
+            textFieldName="name"
+            name="id"
+            sortdata={productsState}
+          />
+          <br />
+          <div style={{ width: "120px" }}>
+            {" "}
+            <Button
+              className="danger"
+              text="Reset Form"
+              onClick={(x) => {
+                setformState(emptyFormObject);
+                setMessage("Form cleared");
+              }}
+            />
+          </div>
+        </div>
         <form onSubmit={onSubmit}>
           <div className="product-form">
             <div>
-              <Input
+              {/* <Input
                 label="Barcode"
                 value={formState.barcode}
                 onChange={onFieldChange}
                 name="barcode"
                 type="text"
                 placeholder="Barcode"
+              /> */}
+
+              <Input
+                label="Name"
+                value={formState.name}
+                onChange={onFieldChange}
+                name="name"
+                type="text"
+                placeholder="Product Name"
               />
 
               <DropDownList
@@ -198,14 +245,6 @@ function AddProduct({ setError, history, setMessage }) {
               />
             </div>
             <div>
-              <Input
-                label="Name"
-                value={formState.name}
-                onChange={onFieldChange}
-                name="name"
-                type="text"
-                placeholder="Product Name"
-              />
               <DropDownList
                 label="Product Type"
                 optionLabel="-- SELECT PRODUCT TYPE --"

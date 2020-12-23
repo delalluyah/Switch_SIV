@@ -64,7 +64,7 @@ function App() {
             component={Dashboard}
             subComponent={ProductDetails}
           />
-          <PrivateRoute
+          {/* <PrivateRoute
             path="/product/update/:id"
             component={Dashboard}
             subComponent={UpdateProduct}
@@ -79,8 +79,8 @@ function App() {
             path="/add-category"
             component={Dashboard}
             subComponent={ProductCategory}
-          />
-          <PrivateRoute
+          /> */}
+          {/* <PrivateRoute
             path="/update-category/:id"
             component={Dashboard}
             subComponent={UpdateProductCategory}
@@ -110,7 +110,7 @@ function App() {
             path="/users"
             component={Dashboard}
             subComponent={Users}
-          />
+          /> */}
           <PrivateRoute
             exact
             path="/record-sales"
@@ -135,7 +135,7 @@ function App() {
             component={Dashboard}
             subComponent={SalesDetails}
           />
-          <PrivateRoute
+          {/* <PrivateRoute
             exact
             path="/update-user/:id"
             component={Dashboard}
@@ -146,7 +146,7 @@ function App() {
             path="/add-user/"
             component={Dashboard}
             subComponent={AddUser}
-          />
+          /> */}
           <PrivateRoute
             path="/"
             component={Dashboard}

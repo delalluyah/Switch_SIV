@@ -1,0 +1,22 @@
+.sort-data {
+  height: 200px;
+  width: 100%;
+  margin: -20px 0 0;
+  overflow-y: scroll;
+  display: none;
+  flex-direction: column;
+}
+
+.ddl_input input:focus .sort-data {
+  display: flex;
+}
+
+.sort-data a {
+  background-color: #3e8e41;
+  color: black;
+  padding: 6px 10px;
+  border-bottom: 2px solid black;
+}
+.sort-data a:hover {
+  background-color: #4caf50;
+}

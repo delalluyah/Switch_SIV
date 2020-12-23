@@ -33,6 +33,7 @@ export default function SalesRow({
           readOnly
           min="0"
         />
+
         <Input
           name="bulkUnits"
           label="Bulk Quantity Units"
@@ -55,7 +56,6 @@ export default function SalesRow({
           name="saleTypeId"
           value={product.saleTypeId}
         />
-
         <Input
           name="quantity"
           label="Quantity"
@@ -65,41 +65,39 @@ export default function SalesRow({
           onChange={onFormChange}
           min="0"
         />
-        <div style={{ display: "inline" }}>
-          <Input
-            name="total"
-            value={
-              product.saleTypeId === "1"
-                ? (
-                    parseFloat(product.bulkPrice) * parseFloat(product.quantity)
-                  ).toFixed(2)
-                : (
-                    parseFloat(product.unitPrice) * parseFloat(product.quantity)
-                  ).toFixed(2)
-            }
-            label="Total"
-            placeholder="Total"
-            type="number"
-            readOnly
-            onChange={onFormChange}
-            min="0"
+        <Input
+          name="total"
+          value={
+            product.saleTypeId === "1"
+              ? (
+                  parseFloat(product.bulkPrice) * parseFloat(product.quantity)
+                ).toFixed(2)
+              : (
+                  parseFloat(product.unitPrice) * parseFloat(product.quantity)
+                ).toFixed(2)
+          }
+          label="Total"
+          placeholder="Total"
+          type="number"
+          readOnly
+          onChange={onFormChange}
+          min="0"
+        />
+        <div
+          style={{
+            width: "35px",
+            position: "absolute",
+            right: "0px",
+            bottom: "20px",
+          }}
+        >
+          <Button
+            image={remove}
+            tooltip="Remove"
+            text=""
+            onClick={onCancel}
+            className="danger"
           />
-          <div
-            style={{
-              width: "35px",
-              position: "absolute",
-              right: "0px",
-              bottom: "20px",
-            }}
-          >
-            <Button
-              image={remove}
-              tooltip="Remove"
-              text=""
-              onClick={onCancel}
-              className="danger"
-            />
-          </div>
         </div>
       </div>
     </>

@@ -24,11 +24,9 @@ namespace StocksAppAPI.Controllers
             _logger = logger;
         }
 
-
         [HttpGet("Index")]
         public async Task<IActionResult> Get()
         {
-
             try
             {
                 var data = _db.Role.ToList();

@@ -32,10 +32,10 @@ export default function SideBar({ fullname = "", role = "" }) {
           <i className="fas fa-cart-plus"></i>
           <a href="/add-products">Add Stock</a>
         </li>
-        <li className="side-menu-item">
+        {/* <li className="side-menu-item">
           <i className="fas fa-cart-arrow-down"></i>
           <a href="/record-sales">Record Sales</a>
-        </li>
+        </li> */}
         <li className="side-menu-parent" id="side-menu-users">
           <ul>
             <p>

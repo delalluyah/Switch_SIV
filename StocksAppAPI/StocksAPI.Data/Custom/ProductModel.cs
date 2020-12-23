@@ -26,7 +26,7 @@ namespace StocksAPI.Data.Custom
             ManufacturerId = product.ManufacturerId ?? 0;
             Quantity = product.Quantity;
             Active = product.Active ?? false;
-            Barcode = product.Barcode;
+          //  Barcode = product.Barcode;
         }
 
         public long Id { get; set; }
@@ -43,8 +43,10 @@ namespace StocksAPI.Data.Custom
         public int ManufacturerId { get; set; }
         public int Quantity { get; set; }
         public bool Active { get; set; }
-        public string Barcode { get; set; }
+        //  public string Barcode { get; set; }
 
-        public int BulkQuantity { get { return Quantity / BulkUnits; }}
+        public int BulkQuantity { get { return BulkUnits > 0 ? Quantity / BulkUnits : 0; } }
+
+        public long ProductId { get; set; }
     }
 }

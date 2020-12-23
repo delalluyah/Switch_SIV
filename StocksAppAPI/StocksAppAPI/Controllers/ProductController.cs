@@ -31,12 +31,13 @@ namespace StocksAppAPI.Controllers
             try
             {
                 long productId = 0;
-                var prodcodelower = data.Barcode.ToLower();
-                var qty = data.Quantity * data.BulkUnits;
+              //  var prodcodelower = data.Barcode.ToLower();
+                var qty = data.Quantity * data.BulkUnits;  
+                ///var qty = data.Quantity;
                 var unitCost = data.Cost / qty;
-                if (_db.Product.Any(d => d.Barcode.ToLower() == prodcodelower && d.Active == true))
+                if (_db.Product.Any(d => d.ProductId == data.ProductId && d.Active == true))
                 {
-                    var entity = _db.Product.FirstOrDefault(d => d.Barcode.ToLower() == prodcodelower && d.Active == true);
+                    var entity = _db.Product.FirstOrDefault(d => d.ProductId == data.ProductId && d.Active == true);
                     entity.Name = data.Name;
                     entity.CategoryId = data.CategoryId;
                     entity.TypeId = data.TypeId;
@@ -59,7 +60,7 @@ namespace StocksAppAPI.Controllers
                         Cost = unitCost,
                         UnitPrice = data.UnitPrice,
                         Quantity = qty,
-                        Barcode = data.Barcode,
+                    //    Barcode = data.Barcode,
                         Active = true,
                         BulkUnits = data.BulkUnits,
                         BulkPrice= data.BulkPrice
@@ -187,11 +188,13 @@ namespace StocksAppAPI.Controllers
       {
             try
             {
-                form.code = form.code.ToLower().Trim() ?? "";
+               // form.code = form.code.ToLower().Trim() ?? "";
                 form.name = form.name.ToLower().Trim() ?? "";
                 var data = _db.Product
                     .Include(p => p.Type).Include(p => p.Manufacturer).Include(p=>p.Category)
-                    .Where(d => d.Barcode.ToLower().Contains(form.code) && d.Name.ToLower().Contains(form.name))
+                    .Where(d => 
+                   // d.Barcode.ToLower().Contains(form.code) && 
+                    d.Name.ToLower().Contains(form.name))
                     .Select(d => new ProductModel(d));
                 return Ok(new { Success = true, Data = data });
             }

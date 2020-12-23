@@ -116,13 +116,22 @@ function UpdateProduct({ setError, setMessage, history, match }) {
           <div className="product-form">
             <div>
               <Input
+                label="Name"
+                value={formState.name}
+                onChange={onFieldChange}
+                name="name"
+                type="text"
+                placeholder="Product Name"
+                tabindex="0"
+              />
+              {/* <Input
                 label="Barcode"
                 value={formState.barcode}
                 onChange={onFieldChange}
                 name="barcode"
                 type="text"
                 placeholder="Barcode"
-              />
+              /> */}
 
               <DropDownList
                 label="Product Category"
@@ -133,6 +142,7 @@ function UpdateProduct({ setError, setMessage, history, match }) {
                 textFieldName="name"
                 name="categoryId"
                 value={formState.categoryId}
+                tabindex="2"
               />
 
               {/* <Input
@@ -151,6 +161,7 @@ function UpdateProduct({ setError, setMessage, history, match }) {
                 name="bulkPrice"
                 type="number"
                 placeholder="Bulk Price of Product"
+                tabindex="3"
               />
               <Input
                 label="Description"
@@ -158,17 +169,10 @@ function UpdateProduct({ setError, setMessage, history, match }) {
                 onChange={onFieldChange}
                 name="description"
                 placeholder="Product Description (optional)"
+                tabindex="5"
               />
             </div>
             <div>
-              <Input
-                label="Name"
-                value={formState.name}
-                onChange={onFieldChange}
-                name="name"
-                type="text"
-                placeholder="Product Name"
-              />
               <DropDownList
                 label="Product Type"
                 optionLabel="-- SELECT PRODUCT TYPE --"
@@ -178,6 +182,7 @@ function UpdateProduct({ setError, setMessage, history, match }) {
                 textFieldName="name"
                 name="typeId"
                 value={formState.typeId}
+                tabindex="1"
               />
 
               <Input
@@ -187,6 +192,7 @@ function UpdateProduct({ setError, setMessage, history, match }) {
                 name="bulkUnits"
                 type="number"
                 placeholder="Bulk Units"
+                tabindex="4"
               />
 
               <Input
@@ -196,6 +202,7 @@ function UpdateProduct({ setError, setMessage, history, match }) {
                 name="unitPrice"
                 type="number"
                 placeholder="Unit Price of Product"
+                tabindex="6"
               />
             </div>
           </div>

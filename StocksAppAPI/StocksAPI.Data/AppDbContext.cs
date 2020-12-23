@@ -68,13 +68,7 @@ namespace StocksAPI.Data
 
             modelBuilder.Entity<Product>(entity =>
             {
-                entity.HasIndex(e => e.Barcode)
-                    .HasName("Product_Barcode_key")
-                    .IsUnique();
-
                 entity.Property(e => e.Active).HasDefaultValueSql("true");
-
-                entity.Property(e => e.Barcode).IsRequired();
 
                 entity.Property(e => e.Name).IsRequired();
 

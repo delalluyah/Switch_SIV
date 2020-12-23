@@ -11,6 +11,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import SalesRow from "./SalesRow";
 import actions from "../../store/actions";
+import DDLInput from "../shared/DDL_Input";
 
 function SalesRecords({ setMessage, setError, history, setSalesRecord }) {
   const [searchForm, setSearchForm] = useState({ code: "", name: "" });
@@ -34,10 +35,8 @@ function SalesRecords({ setMessage, setError, history, setSalesRecord }) {
       if (res.success) setProductsState(res.data);
     });
   }, []);
-  function onSelectProduct(e) {
-    let selected = productsState.filter(
-      (el) => el.id == parseInt(e.target.value)
-    )[0];
+  function onSelectProduct(id) {
+    let selected = productsState.filter((el) => el.id == id)[0];
     selected.quantity = 1;
     setSelectedProducts([{ ...selected }, ...selectedProducts]);
     setMessage("Product selected");
@@ -137,22 +136,36 @@ function SalesRecords({ setMessage, setError, history, setSalesRecord }) {
     <>
       <Card subtitle="Search By Barcode Or Select product from dropdown">
         <div className="two-col">
-          <Input
+          {/* <Input
             name="code"
             value={searchForm.code}
             label="Barcode"
             placeholder="Barcode"
             onChange={onChangeSearch}
             autoFocus={true}
-          />
-          <DropDownList
+          /> */}
+          {/* <DropDownList
             label="Select Product"
             optionLabel="-- SELECT PRODUCT --"
             data={productsState}
             onChange={onSelectProduct}
             valueFieldName="id"
             textFieldName="name"
+            //onKeyPress={(e) => console.log(e.keycode)}
             name="id"
+          /> */}
+
+          <DDLInput
+            label="Select Product"
+            optionLabel="-- SELECT PRODUCT --"
+            data={productsState.map((el) => {
+              return { value: el.id, label: el.name };
+            })}
+            onChange={onSelectProduct}
+            valueFieldName="id"
+            textFieldName="name"
+            name="id"
+            sortdata={productsState}
           />
         </div>
       </Card>

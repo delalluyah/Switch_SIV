@@ -15,7 +15,6 @@ function ProductsDashboard({ history }) {
 
   useEffect(() => {
     utils.getdata(constants.backendApi.get_products).then((resp) => {
-      console.log(resp);
       if (resp.success === true) setProducts(resp.data);
     });
     return () => {
@@ -45,14 +44,14 @@ function ProductsDashboard({ history }) {
       <div style={{ marginBottom: "10px" }}>
         <Card subtitle="Search By Barcode & Product Name">
           <div className="product-form">
-            <Input
+            {/* <Input
               name="code"
               value={searchForm.code}
               label="Barcode"
               placeholder="Barcode"
               onChange={onChangeSearch}
               autoFocus={true}
-            />
+            /> */}
             <Input
               name="name"
               value={searchForm.name}
@@ -73,7 +72,7 @@ function ProductsDashboard({ history }) {
         pageable={true}
         onPageChange={pageChange}
       >
-        <Column field="barcode" title="Barcode" width="120" />
+        {/* <Column field="barcode" title="Barcode" width="120" /> */}
         <Column field="name" title="Name" width="200" />
         <Column field="categoryName" title="Category" width="160" />
         <Column field="unitPrice" title="Price" width="100" format="GHC {0}" />

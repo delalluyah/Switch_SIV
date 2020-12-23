@@ -18,6 +18,7 @@ export default ({
   name,
   type = "text",
   label,
+  width,
   ...rest
 }) => {
   return (
@@ -29,6 +30,7 @@ export default ({
           <br />
         </>
       ) : null}
+
       <input
         style={inputStyle}
         onChange={onChange}

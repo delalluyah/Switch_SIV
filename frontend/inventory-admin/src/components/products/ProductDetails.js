@@ -30,9 +30,9 @@ function ProductDetails({ history, match }) {
         </div>
         <div className="two-col">
           <div className="item-details">
-            <p>
+            {/* <p>
               <b>Barcode:</b> {product.barcode}
-            </p>
+            </p> */}
             <p>
               <b>Product Name:</b> {product.name}
             </p>

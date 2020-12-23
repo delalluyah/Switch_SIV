@@ -116,24 +116,24 @@ function App() {
             component={Dashboard}
             subComponent={Users}
           />
-          <PrivateRoute
+          {/* <PrivateRoute
             exact
             path="/record-sales"
             component={Dashboard}
             subComponent={SalesDashboard}
-          />
+          /> */}
           <PrivateRoute
             exact
             path="/update-user/:id"
             component={Dashboard}
             subComponent={UpdateUser}
           />
-          <PrivateRoute
+          {/* <PrivateRoute
             exact
             path="/preview-sales/"
             component={Dashboard}
             subComponent={SalesPreview}
-          />
+          /> */}
           <PrivateRoute
             exact
             path="/add-user/"

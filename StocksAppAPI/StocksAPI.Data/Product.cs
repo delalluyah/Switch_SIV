@@ -20,9 +20,9 @@ namespace StocksAPI.Data
         public int? ManufacturerId { get; set; }
         public int Quantity { get; set; }
         public bool? Active { get; set; }
-        public string Barcode { get; set; }
         public double BulkPrice { get; set; }
         public int BulkUnits { get; set; }
+        public string Barcode { get; set; }
 
         public virtual ProductCategory Category { get; set; }
         public virtual ProductManufacturer Manufacturer { get; set; }
